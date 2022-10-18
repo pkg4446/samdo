@@ -19,8 +19,17 @@ module.exports = {
 
 		socket.on('data', function (data) {
 			const response = Buffer.from(data, 'utf8');
-			console.log("recive",response);
+			console.log("recive",typeof(response),response);
 			socket.destroy();
+
+			const {io} = require('socket.io-client');
+			const socketio = io("http://localhost:3003");
+
+			socketio.emit("reply", {ID:"response",DATA:response});
+
+			socketio.on('clientCut', (data) => {
+				socketio.disconnect()
+			});
 		});
 
 		socket.on('close', function () {

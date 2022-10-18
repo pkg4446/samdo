@@ -1,0 +1,32 @@
+<style>
+    body {height: 100%;}
+</style>
+
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<body class="is-preload">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Header -->
+        <%- include('head') %>
+        <%- include('menu') %>    
+        <!-- Content Wrapper -->
+        <%- body %> 
+        <!-- Footer -->
+        <%- include('footer') %>       
+    </div>
+
+    <!-- Scripts -->    
+    <script src="/public/js/browser.min.js"></script>
+    <script src="/public/js/breakpoints.min.js"></script>
+    <script src="/public/js/util.js"></script>
+    <script src="/public/js/main.js"></script>  
+    <%- script %>    
+
+</body>
+      
+</html>
+
+

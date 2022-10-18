@@ -1,0 +1,108 @@
+<!-- script -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript">
+    function submitfn(){
+        let joindata = {
+            "USER_EMAIL":   document.getElementById('USER_EMAIL').value,
+            "USER_PASS":    document.getElementById('USER_PASS').value,
+            "USER_NICK":    document.getElementById('USER_NICK').value,
+            "USER_GENDER":  document.querySelector('input[name="USER_GENDER"]:checked').value,
+            "USER_B_DAY":   document.getElementById('USER_B_DAY').value,
+            };
+
+        if(document.getElementById('USER_PASS').value === document.getElementById('pass').value){
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                url : "/user/join",
+                type : 'POST', 
+                dataType:'json',
+                data : JSON.stringify(joindata), 
+                success : function(data) {
+                    if(data.userCheck){
+                        Swal.fire({
+                            icon: 'error',
+                            title: '이미 가입된 아이디 입니다.',
+                        });
+                    }else if(data.Check){                        
+                        Swal.fire({
+                            icon: 'error',
+                            title: '항목이 누락되었습니다.',
+                        });
+                    }else{
+                        Swal.fire({              
+                            position: 'top',
+                            icon: 'success',
+                            title: "가입성공",
+                            text: "이제 EROG를 플레이 하세요!",
+                            showConfirmButton: false,                                    
+                            timer: 1500
+                        })
+                        .then((result) => {                       
+                            window.location.href = "/web/user/login";
+                        })                    
+                    }
+                }, // success 
+                error : function(xhr, status) {
+                    alert(xhr + " : " + status);
+                    console.log(xhr);
+                }            
+            }); // $.ajax 
+        }else{
+            Swal.fire({
+                icon: 'error',
+                title: '비밀번호가 일치하지 않습니다.',
+            });
+        }
+    }
+</script>
+<!-- Main -->
+<div id="main" class="alt">
+
+    <div class="inner">
+ 
+        <hr class="major" />
+        <!-- Form -->
+        <h3>회 원 가 입</h3>
+
+        <form method="post" action="#">
+            <div class="row gtr-uniform">
+                <div class="col-12">
+                    <input type="email"    name="USER_EMAIL" id="USER_EMAIL" value="" placeholder="E-mail" />
+                </div>
+                <div class="col-6 col-12-xsmall">
+                    <input type="password" name="USER_PASS" id="USER_PASS" value="" placeholder="Password" />
+                </div>
+                <div class="col-6 col-12-xsmall">
+                    <input type="password" name="pass" id="pass" value="" placeholder="Password confirm" />
+                </div>
+                <div class="col-12">
+                    <input type="text" name="USER_NICK" id="USER_NICK" value="" maxlength='5' placeholder="Nick Name" />
+                </div>
+                <!-- Break -->
+                <div class="col-2">
+                    <h4>성 별 :</h4>
+                </div>
+                <div class="col-4 col-12-xsmall">
+                    <input type="radio" name="USER_GENDER" id="USER_GENDER_MALE" value="true" checked>
+                    <label for="USER_GENDER_MALE">남자</label>
+                </div>
+                <div class="col-6 col-12-xsmall">
+                    <input type="radio" name="USER_GENDER" id="USER_GENDER_FEMALE" value="false">
+                    <label for="USER_GENDER_FEMALE">여자</label>
+                </div>
+                <!-- Break -->
+                <div class="col-2 col-12-xsmall">
+                    <h4>생 일 :</h4>
+                </div>
+                <div class="col-10 col-12-xsmall">
+                    <input type="date" name='USER_B_DAY' id='USER_B_DAY' style="color: rgb(0, 0, 0);width: 100%;" max="2003-12-31">
+                </div>
+                <!-- Break -->
+                <br><br><br><br>
+                <div class="col-12">
+                    <input type="button" value="Register Account" style="width: 100%; height: 100px; " onclick="submitfn(); return false;">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

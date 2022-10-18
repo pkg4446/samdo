@@ -28,7 +28,9 @@
     "mysql2": "^2.3.3",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
-    "sequelize": "^6.25.2"
+    "sequelize": "^6.25.2",
+    "socket.io": "^4.5.3",
+    "socket.io-client": "^4.5.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

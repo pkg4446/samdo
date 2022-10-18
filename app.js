@@ -74,6 +74,8 @@ app.use((err, req, res, next) => {
 });
 
 let httpServer  = http.createServer(app);
+const webSocket = require('./controller/socket');
+webSocket(httpServer);
 httpServer.listen(HTTP_PORT, () => {
     console.log("Web server is listening on port %s \n", HTTP_PORT);
 });
