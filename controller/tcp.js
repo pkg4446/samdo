@@ -10,7 +10,7 @@ module.exports = {
 		// setting encoding
 		socket.setEncoding('utf8');
 		const rawHex = Buffer.from(hexString, 'hex');		
-		console.log(rawHex);
+		console.log("보낸 데이터 : ",rawHex);
 
 		socket.on('connect', function () {
 			console.log('on connect');					
@@ -19,17 +19,20 @@ module.exports = {
 
 		socket.on('data', function (data) {
 			const response = Buffer.from(data, 'utf8');
-			console.log("recive",typeof(response),response);
+			console.log("받은 데이터 : ",response);
 			socket.destroy();
+			if(response.length>16){
+				const {io} = require('socket.io-client');
+				const socketio = io("http://localhost:3003");
 
-			const {io} = require('socket.io-client');
-			const socketio = io("http://localhost:3003");
+				socketio.emit("reply", {ID:"response",DATA:response});
 
-			socketio.emit("reply", {ID:"response",DATA:response});
-
-			socketio.on('clientCut', (data) => {
-				socketio.disconnect()
-			});
+				socketio.on('clientCut', (data) => {
+					socketio.disconnect()
+				});
+			}else{
+				console.log("update");
+			}
 		});
 
 		socket.on('close', function () {
@@ -45,12 +48,4 @@ module.exports = {
 		return false;
 	  }    
 	},
-}
-
-function recive(){
-	socket.on('data', function (data) {
-		const response = Buffer.from(data, 'utf8');
-		console.log("recive",response);
-		socket.destroy();
-	});
 }

@@ -1,7 +1,9 @@
 const express   = require('express');
 const router    = express.Router();
 
-const tcp       = require("../controller/tcp");
+//const test      = require("./test");
+const plasma       = require("./plasma");
+
 
 router.route('/')
     .get(function (req, res){
@@ -13,11 +15,6 @@ router.route('/')
         console.log(req.query);
         res.send("Post Request ACK");
     });
-
-router.get('/tcp', function(req, res) {
-    let response;
-        response = tcp.TCP_send("localhost",8005,"00000000000601040001000C");
-        //response = tcp.TCP_send("223.171.85.65",502,"00000000000601040001000C");
-        res.send(response);
-    });
+    
+router.use('/plasma',plasma);
 module.exports  = router;
