@@ -53,26 +53,25 @@ router.post('/modify',async function(req, res, next) {
                 else{hexData = "0002"}
                 break;
             case "69":
-                hexData = HexZero(TimeData(request,11));  //time 변경 00:00:00, 16시 넘어가면 버그남
+                hexData = HexZero(TimeData(request,11));    //now time _ex)9:30:10
                 break;
             case "6a":
-                hexData = HexZero(TimeData(request,11));    //timeOn 바뀜
+                hexData = HexZero(TimeData(request,9));     //now day  _ex)22:10:20
                 break;
             case "6b":
-                hexData = HexZero(TimeData(request,11));   //timeOff 바뀜
+                hexData = HexZero(TimeData(request,11));    //start time _ex)9:30:10
                 break;
             case "6c":
-                hexData = HexZero((request*1).toString(16));   //rp on 바뀜
+                hexData = HexZero(TimeData(request,11));    //end time _ex)18:30:10
                 break;
             case "6d":
-                hexData = HexZero((request*1).toString(16)); //rp off 바뀜
+                hexData = HexZero((request*1).toString(16)); //on time
                 break;
             case "6e":
-                hexData = HexZero((request*1).toString(16)); //pump 바뀜
+                hexData = HexZero((request*1).toString(16)); //off time
                 break;
             case "6f":
-                if(request == "On"){hexData = "0002"}
-                else{hexData = "0001"}
+                hexData = HexZero((request*1).toString(16)); //pump time
                 break;
             case "70":
                 if(request == "On"){hexData = "0002"}

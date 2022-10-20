@@ -18,38 +18,41 @@ module.exports = (server) => {
     });
     socket.on('reply', (data) => {
       if(data.ID=="response"){
-        /*for(let index of data.DATA){  
-          response.push(index.toString(16));  
-        }*/
-        console.log(data.DATA.length);
-        const time  = BinaryZero(data.DATA[17].toString(2))+BinaryZero(data.DATA[18].toString(2));
-        const day   = BinaryZero(data.DATA[19].toString(2))+BinaryZero(data.DATA[20].toString(2));
-        const tmOn  = BinaryZero(data.DATA[21].toString(2))+BinaryZero(data.DATA[22].toString(2));
-        const tmOff = BinaryZero(data.DATA[23].toString(2))+BinaryZero(data.DATA[24].toString(2));
+        let buffer = [];
+        if(data.DATA.length != 33)
+        {
+          for (let index = 0; index < data.DATA.length; index++) {
+            if(data.DATA[index] == 239 && data.DATA[index+1] == 191 && data.DATA[index+2] == 189){
+              index +=2;
+              buffer.push(0);
+            }else{
+              buffer.push(data.DATA[index]);
+            }
+          }
+        }else{
+          for (let index = 0; index < 33; index++) {
+            buffer.push(data.DATA[index]);
+          }
+        }
+        console.log(data.DATA.length,buffer.length);
+
+        const time  = BinaryZero(buffer[17].toString(2))+BinaryZero(buffer[18].toString(2));
+        const day   = BinaryZero(buffer[19].toString(2))+BinaryZero(buffer[20].toString(2));
+        const tmOn  = BinaryZero(buffer[21].toString(2))+BinaryZero(buffer[22].toString(2));
+        const tmOff = BinaryZero(buffer[23].toString(2))+BinaryZero(buffer[24].toString(2));
         const response = {
-          actMode:  data.DATA[10].toString(16),
-          actStat:  data.DATA[12].toString(16),  
-          error:    data.DATA[16].toString(16),
+          tmErr:    Math.round((data.DATA.length-33)/2),
+          actMode:  buffer[10],
+          actStat:  buffer[12],  
+          error:      buffer[16],
           time:     BinaryParse(time,5),
           day:      BinaryParse(day,7),
           tmOn:     BinaryParse(tmOn,5),
           tmOff:    BinaryParse(tmOff,5),
-        }
-        if(data.DATA.length == 35){         
-          response.rpOn = parseInt((data.DATA[27].toString(16) + data.DATA[28].toString(16)), 16);
-          response.rpOff= parseInt((data.DATA[29].toString(16) + data.DATA[30].toString(16)), 16);
-          response.pump = parseInt((data.DATA[31].toString(16) + data.DATA[32].toString(16)), 16);
-          response.fan  = data.DATA[33].toString(16) + data.DATA[34].toString(16);
-        }else if(data.DATA.length == 34){
-          response.rpOn = parseInt((data.DATA[26].toString(16) + data.DATA[27].toString(16)), 16);
-          response.rpOff= parseInt((data.DATA[28].toString(16) + data.DATA[29].toString(16)), 16);
-          response.pump = parseInt((data.DATA[30].toString(16) + data.DATA[31].toString(16)), 16);
-          response.fan  = data.DATA[32].toString(16) + data.DATA[33].toString(16);
-        }else{
-          response.rpOn = parseInt((data.DATA[25].toString(16) + data.DATA[27].toString(16)), 16);
-          response.rpOff= parseInt((data.DATA[27].toString(16) + data.DATA[29].toString(16)), 16);
-          response.pump = parseInt((data.DATA[28].toString(16) + data.DATA[31].toString(16)), 16);
-          response.fan  = data.DATA[30].toString(16) + data.DATA[31].toString(16);
+          rpOn:     buffer[25]+buffer[26],
+          rpOff:    buffer[27]+buffer[28],
+          pump:     buffer[29]+buffer[30],
+          fan:      data.DATA[31].toString(16) + data.DATA[32].toString(16)
         }
         for(let key in response){
           console.log(key,response[key],typeof(response[key]));

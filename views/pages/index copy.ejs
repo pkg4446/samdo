@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>GIF 채팅방</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>//socket.io와 express와 연결을 하면 socket.io 서버가 express에 위의 /socket.io/~.js 파일을 넣어준다. -> 만약 404가 뜨면 socket.js의 const io 부분이 잘 안된거!
+  const socket = io.connect('http://localhost:3003', { //프론트랑 서버랑 연결할 때는 이렇게 하면됨. / io는 위의 /socket.io/~.js에서 제공해주는거임.
+    path: '/socket.io', //socket.js의 path와 일치시켜주면 된다.
+    //왜 이번엔 io.connect 부분에 http를 사용했을까? -> websocket을 지원하지 않는 브라우저도 있기 때문에 먼저 폴링을 해보고 websocket이 가능하면 그때 변환한다.
+    transports: ['websocket'],// 그 방법이 싫고 바로 websocket으로 하고 싶다면 이 문장을 작성해주면 됨.(폴링 하지 않음.)
+  });
+  socket.on('news', function (data) { //서버쪽에서도 프론트로 이름(여기선 news)과 함께 데이터를 보낸다.
+    HTML(data); //서버쪽에서 받은 데이터 
+    socket.emit('reply', 'Hello Node.JS'); //서버쪽으로 데이터 보낼 때도 데이터만 보내는게 아니라 이벤트 이름(여기선 reply)이랑 보낸다.
+  //socket.emit(‘reply’, 메시지)로 reply 이벤트 발생!
+  });
+
+  async function send(PLSM_ID) {
+    alert(PLSM_ID)
+    await axios({      
+      url: "/tcp", // 요청 주소
+      method: "post", // 요청 방식
+      data: {PLSM_ID:PLSM_ID},
+    })
+    .then(function(res){
+      console.log(res);
+    });
+  }
+
+  function HTML(contents){
+    let HTML_Text = document.getElementById("moniter").innerHTML;
+    HTML_Text += "<p>" + JSON.stringify(contents) + "<p>"
+    document.getElementById("moniter").innerHTML = HTML_Text;
+  }
+</script>
+
+<body>
+<div onclick="send('PLSM_ID')">불러오기</div>
+<div>moniter</div>
+<div id="moniter">
+  <p>여기 내용이 출력됩니다.</p>
+</div>
+</body>
+</html>

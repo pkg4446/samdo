@@ -5,24 +5,32 @@
 <!DOCTYPE html>
 
 <html lang="ko">
+    <head>
+        <title>ZeroFour by HTML5 UP</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="/public/css/main.css" />
+    </head>
 
-<body class="is-preload">
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-        <!-- Header -->
-        <%- include('head') %>
-        <%- include('menu') %>    
-        <!-- Content Wrapper -->
-        <%- body %> 
-        <!-- Footer -->
-        <%- include('footer') %>       
-    </div>
+    <body class="homepage is-preload">
+        <div id="page-wrapper">
+            <!-- Header -->
+            <%- include('head') %>
+            <!-- Content Wrapper -->
+            <%- body %> 
+            <!-- Footer -->
+            <%- include('footer') %>       
+        </div>
 
-    <!-- Scripts -->     
-    <%- script %>    
-
-</body>
-      
+        <!-- Scripts -->     
+        <%- script %>    
+        <script src="public/js/jquery.min.js"></script>
+        <script src="public/js/jquery.dropotron.min.js"></script>
+        <script src="public/js/browser.min.js"></script>
+        <script src="public/js/breakpoints.min.js"></script>
+        <script src="public/js/util.js"></script>
+        <script src="public/js/main.js"></script>
+    </body>      
 </html>
 
 

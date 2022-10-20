@@ -31,11 +31,19 @@ module.exports = {
       const object =  await plasma.findByPk(PLSM_ID)
       .then(function(response) {
         let PRTC_ID = response.PRTC_ID;
-        if(PRTC_ID == "ffff"){
+
+        const totalnumber = parseInt(PRTC_ID, 16);
+        const number = parseInt(PRTC_ID.slice(2), 16);
+        let hex = 0;     
+        
+        if(totalnumber >= 32639){
           PRTC_ID = "0000";
-        }else{
-          const number = parseInt(PRTC_ID, 16);
-          const hex = (number+1).toString(16);          
+        }else{ 
+          if(number >= 127){
+            hex = (totalnumber+129).toString(16);          
+          }else{
+            hex = (totalnumber+1).toString(16); 
+          }
           PRTC_ID = "";
           if(hex.length<4){            
             for (let index = 4; index > hex.length; index--) {
