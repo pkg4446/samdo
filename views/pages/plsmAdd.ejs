@@ -1,0 +1,68 @@
+<!-- script -->
+<script type="text/javascript">   
+
+    function submitfn(){
+        var formData = $("#regist").serialize();        
+        var url = document.location.href;
+
+        $.ajax({    
+            cache : false,
+            url : "/api/plasma/regist",
+            type : 'POST', 
+            data : formData, 
+            success : function(data) {
+                if(data.result){
+                    window.location.href = "/web/plasma/list";
+                }else{
+                    alert(data.data);
+                }
+            }, // success 
+    
+            error : function(xhr, status) {
+                console.log(JSON.stringify(xhr) + " : " + status);
+            }            
+        }); // $.ajax */
+    }
+</script>
+<!-- script -->
+
+<div id="main-wrapper">
+    <div class="wrapper style3">
+        <div class="inner">
+            <div class="container">
+
+                <h3>플라즈마 등록</h3>
+
+                <form method="post" action="/api/plasma/regist" class="user" id='regist'>
+                    <div class="row">
+                        <div class="col-2 col-12-xsmall">
+                            플라즈마 이름:
+                        </div>
+                        <div class="col-10 col-12-xsmall">
+                            <input type="text"   name="PLSM_ID" id="eqID" value="" placeholder="플라즈마 장비 이름을 지어주세요." />
+                        </div>
+                        <div class="col-2 col-12-xsmall">
+                            플라즈마 PORT
+                        </div>
+                        <div class="col-10 col-12-xsmall">
+                            <input type="text"  name="PLSM_PORT" id="Port" value="" placeholder="포트를 입력해 주세요" />
+                        </div>
+                        <div class="col-2 col-12-xsmall">
+                            플라즈마 IP
+                        </div>      
+                        <div class="col-10 col-12-xsmall">
+                            <input type="text"   name="PLSM_IP" id="wqIP" value="" placeholder="000.000.000.000 //형식으로 IP를 입력해주세요." />
+                        </div>             
+                        <!-- Break -->
+                        <div></div>
+                        <div class="col-12 col-12-xsmall">
+                            <input type="button" value="LOG IN" style="width: 100%; height: 100px;" onclick="submitfn(); return false;">
+                        </div>
+                        
+                    </div>
+                </form>
+                   
+            </div>
+        </div>
+    </div>
+</div>

@@ -62,7 +62,7 @@ module.exports = {
 
   list : async function(){
     try {
-      const object = await moduleList.findAll({
+      const object = await plasma.findAll({
         raw:  true,
       });
       return object;

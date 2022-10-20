@@ -2,8 +2,8 @@ const express   = require('express');
 const router    = express.Router();
 
 //const test      = require("./test");
-const plasma       = require("./plasma");
-
+const api       = require("./api");
+const front     = require("./front");
 
 router.route('/')
     .get(function (req, res){
@@ -16,5 +16,6 @@ router.route('/')
         res.send("Post Request ACK");
     });
     
-router.use('/plasma',plasma);
+router.use('/api',  api);
+router.use('/web',front);
 module.exports  = router;

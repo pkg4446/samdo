@@ -1,8 +1,8 @@
 const express   = require('express');
 const router    = express.Router();
 
-const tcp       = require("../controller/tcp");
-const devices   = require("../controller/devices");
+const tcp       = require("../../controller/tcp");
+const devices   = require("../../controller/devices");
 
 router.post('/tcp', function(req, res) {
     let response;
@@ -102,20 +102,29 @@ router.post('/list',async function(req, res, next) {
     res.json(response);
 });
 
-router.post('/regist',async function(req, res, next) {   
+router.post('/regist',async function(req, res, next) {
     const response = {
         result: true,
         data:   null,
     }
     try {
-        const data = {
-            PLSM_ID:    req.body.PLSM_ID,
-            PLSM_PORT:  req.body.PLSM_PORT,
-            PLSM_IP:    req.body.PLSM_IP    
-        }   
-        response.data = await devices.plasma_create(data);
+        if(req.body.PLSM_IP.length<7 || !isNaN(req.body.PLSM_IP)){
+            response.result  = false;
+            response.data    = "IP가 올바르지 않습니다."
+        }else if(isNaN(req.body.PLSM_PORT)){
+            response.result  = false;
+            response.data    = "PORT가 올바르지 않습니다."
+        }else{
+            const data  = {
+                PLSM_ID:    req.body.PLSM_ID,
+                PLSM_PORT:  req.body.PLSM_PORT,
+                PLSM_IP:    req.body.PLSM_IP    
+            }   
+            response.data = await devices.plasma_create(data);
+        }        
     } catch (error) {
         response.result = false;
+        response.data   = "플라즈마 장비이름이 중복되었습니다."
         next(error);
     }
     res.json(response);
