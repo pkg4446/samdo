@@ -44,7 +44,7 @@ module.exports = (server) => {
           tmErr:    Math.round((data.DATA.length-33)/2),
           actMode:  buffer[10],
           actStat:  buffer[12],  
-          error:      buffer[16],
+          error:    buffer[16],
           time:     BinaryParse(time,5),
           day:      BinaryParse(day,7),
           tmOn:     BinaryParse(tmOn,5),
@@ -52,13 +52,13 @@ module.exports = (server) => {
           rpOn:     buffer[25]+buffer[26],
           rpOff:    buffer[27]+buffer[28],
           pump:     buffer[29]+buffer[30],
-          fan:      data.DATA[31].toString(16) + data.DATA[32].toString(16)
+          fan:      buffer[31].toString(16) + buffer[32].toString(16)
         }
         for(let key in response){
           console.log(key,response[key],typeof(response[key]));
         }
         
-        io.emit('news',response);
+        io.emit(data.PLSM_ID,response);
         socket.emit('clientCut', true);  
       }      
     });

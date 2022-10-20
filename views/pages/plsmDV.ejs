@@ -1,0 +1,43 @@
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io.connect('http://localhost:3003', {
+    path: '/socket.io', //socket.js의 path와 일치
+    transports: ['websocket'],
+  });
+  socket.on('<%=PLSM_ID%>', function (data) {
+    HTML(data);
+  });
+  async function send(PLSM_ID) {
+    await axios({      
+      url: "/api/plasma/read", // 요청 주소
+      method: "post", // 요청 방식
+      data: {PLSM_ID:PLSM_ID},
+    })
+    .then(function(res){
+      console.log(res);
+    });
+  }
+
+  function HTML(contents){
+    let HTML_Text = document.getElementById("moniter").innerHTML;
+    //HTML_Text += "<p>" + JSON.stringify(contents) + "<p>"
+    HTML_Text += `<div>통신누락: ${contents.tmErr}, 동작 모드: ${contents.actMode}, 
+    동작상태: ${contents.actStat}, 에러정보: ${contents.error},
+    현재시간: ${contents.time[0]}시 ${contents.time[1]}분 ${contents.time[2]}초, 
+    현재날짜: ${contents.day[0]}년 ${contents.day[1]}월 ${contents.day[2]}일,
+    시작시간: ${contents.tmOn[0]}시 ${contents.tmOn[1]}분 ${contents.tmOn[2]}초, 
+    종료시간: ${contents.tmOff[0]}시 ${contents.tmOff[1]}분 ${contents.tmOff[2]}초,
+    켜짐시간: ${contents.rpOn}, 꺼짐시간: ${contents.rpOff},
+    펌프시간: ${contents.pump}, 팬 상태: ${contents.fan}</div>`;
+    document.getElementById("moniter").innerHTML = HTML_Text;
+  }
+</script>
+
+<div class="wrapper style1">
+  <div onclick="send('<%= PLSM_ID %>')">갱신</div>
+  <div>moniter</div>
+  <div id="moniter">
+    <div>Data Log</div>
+  </div>
+</div>

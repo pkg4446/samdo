@@ -5,6 +5,7 @@ const tcp       = require("../../controller/tcp");
 const devices   = require("../../controller/devices");
 
 router.post('/tcp', function(req, res) {
+    console.log(req.body);    
     let response;
         //response = tcp.TCP_send("localhost",8005,"00000000000601040001000C");
         //response = tcp.TCP_send("223.171.85.65",502,"00000000000601040001000C");
@@ -20,7 +21,7 @@ router.post('/read',async function(req, res, next) {
         const tcpdata = await devices.plasma_read(req.body.PLSM_ID);
         await devices.plasma_update(req.body.PLSM_ID);
         const sendBinary = tcpdata.PRTC_ID + "0000000601040001000C";
-        tcp.TCP_send(tcpdata.PLSM_IP,tcpdata.PLSM_PORT,sendBinary);
+        tcp.TCP_send(tcpdata.PLSM_ID,tcpdata.PLSM_IP,tcpdata.PLSM_PORT,sendBinary);
     } catch (error) {
         response.result = false;
         next(error);

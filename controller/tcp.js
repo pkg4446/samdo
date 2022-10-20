@@ -1,7 +1,7 @@
 const net = require('net');
 
 module.exports = {
-	TCP_send: function(Host,Port,hexString){
+	TCP_send: function(PLSM_ID,Host,Port,hexString){
 	  try {
 		const socket = net.connect({
 			port: Port,
@@ -25,7 +25,7 @@ module.exports = {
 				const {io} = require('socket.io-client');
 				const socketio = io("http://localhost:3003");
 
-				socketio.emit("reply", {ID:"response",DATA:response});
+				socketio.emit("reply", {PLSM_ID:PLSM_ID,ID:"response",DATA:response});
 
 				socketio.on('clientCut', (data) => {
 					socketio.disconnect()
