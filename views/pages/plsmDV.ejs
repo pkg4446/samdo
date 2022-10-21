@@ -49,6 +49,18 @@
     });
   }
 
+  async function sendtext(id,data) {
+    let addr = "";
+    if(id=="calendar"){  addr="6a"; }
+    else if(id=="clock"){addr="69"; }
+    else if(id=="timeS"){addr="6b"; }
+    else if(id=="timeE"){addr="6c"; }
+    else if(id=="timeO"){addr="6d"; }
+    else if(id=="timeF"){addr="6e"; }
+    else if(id=="timeP"){addr="6f"; }
+    send(addr,data);
+  }
+
   function MONITER(contents){
     let HTML_Text = `<div class="row">`;
 
@@ -75,29 +87,44 @@
     HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actStat[2]}">물 펌 프</span></div>`
       
     HTML_Text += `<div class="col-3 col-12-xsmall">장비시계:</div>`
-    HTML_Text += `<div class="col-9 col-12-xsmall"> ${contents.day[0]}년 ${contents.day[1]}월 ${contents.day[2]}일,
-                  ${contents.time[0]}시 ${contents.time[1]}분 ${contents.time[2]}초 </div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="calendar"><span onclick="MONITER_Modify('calendar')">${contents.day[0]}년 ${contents.day[1]}월 ${contents.day[2]}일</span></h1></div>`
+    HTML_Text += `<div class="col-6 col-12-xsmall"><h1 id="clock"><span onclick="MONITER_Modify('clock')">${contents.time[0]}시 ${contents.time[1]}분 ${contents.time[2]}초</span></h1></div>`
 
     HTML_Text += `<div class="col-3 col-12-xsmall">시작시간:</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall">${contents.tmOn[0]}시 ${contents.tmOn[1]}분 ${contents.tmOn[2]}초</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeS"><span onclick="MONITER_Modify('timeS')">${contents.tmOn[0]}시 ${contents.tmOn[1]}분 ${contents.tmOn[2]}초</span></h1></div>`
     HTML_Text += `<div class="col-3 col-12-xsmall">종료시간:</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall">${contents.tmOff[0]}시 ${contents.tmOff[1]}분 ${contents.tmOff[2]}초</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeE"><span onclick="MONITER_Modify('timeE')">${contents.tmOff[0]}시 ${contents.tmOff[1]}분 ${contents.tmOff[2]}초</span></h1></div>`
 
     HTML_Text += `<div class="col-3 col-12-xsmall">반복시간(켜짐):</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall">${contents.rpOn} 초</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeO"><span onclick="MONITER_Modify('timeO')">${contents.rpOn} 분</span></h1></div>`
     HTML_Text += `<div class="col-3 col-12-xsmall">반복시간(꺼짐):</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall">${contents.rpOff} 초</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeF"><span onclick="MONITER_Modify('timeF')">${contents.rpOff} 분</span></h1></div>`
 
     HTML_Text += `<div class="col-3 col-12-xsmall">펌프시간:</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall">${contents.pump} 초</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.pump} 초</span></h1></div>`
     
-    let fan = "자동켜짐";
-    if(contents.fan==2){ fan = "항상켜짐"; }
-    HTML_Text += `<div class="col-3 col-12-xsmall">팬 설정:</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall">${fan}</div>`
+    let fan = ["button alt","button alt"];
+    if(contents.fan==0){ fan[1] = "button icon solid fa-check-circle"; }
+    else{ fan[0] = "button icon solid fa-check-circle"; }
+    HTML_Text += `<div class="col-3 col-12-xsmall">팬 설정:</div>`    
+    HTML_Text += `<div class="col-3 col-12-xsmall">
+                  <div class="${fan[0]}" onclick="send('70','Auto')">자동</div>
+                  <div class="${fan[1]}" onclick="send('70','On')">켜짐</div></div>`
 
     HTML_Text += "</div>";
     document.getElementById("moniter").innerHTML = HTML_Text;
+  }
+
+  function MONITER_Modify(id){
+    let HTML_Text = "";
+    if(id == "calendar"){
+      HTML_Text = `<input type='date' id="modify_${id}"> <span class="button icon solid fa-check-circle" onclick="sendtext('${id}',document.getElementById('modify_${id}').value.replaceAll('-', ':'))">변경</span>`;
+    }else if(id == "clock" || id == "timeS" || id == "timeE"){
+      HTML_Text = `<input type='time' id="modify_${id}"> <span class="button icon solid fa-check-circle" onclick="sendtext('${id}',document.getElementById('modify_${id}').value +':00')">변경</span>`;
+    }else{
+      HTML_Text = `<input type='number' min="0" id="modify_${id}"> <span class="button icon solid fa-check-circle" onclick="sendtext('${id}',document.getElementById('modify_${id}').value)">변경</span>`;
+    }
+    document.getElementById(id).innerHTML = HTML_Text;
   }
 
   function LOG(contents){
@@ -115,7 +142,7 @@
 </script>
 
 <div class="wrapper style1">
-  <h1> [ <%= PLSM_ID %> ]</h1>
+  <h2> [ <%= PLSM_ID %> ]</h2>
   <div id="moniter"></div>
 </div>
 <div class="wrapper style2">

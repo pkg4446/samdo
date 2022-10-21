@@ -2,9 +2,9 @@
   "name": "samdo",
   "version": "0.0.0",
   "description": "modbus TCP",
-  "main": "app.js",
+  "main": "samdo.js",
   "scripts": {
-    "start": "nodemon app"
+    "start": "nodemon samdo"
   },
   "repository": {
     "type": "git",
