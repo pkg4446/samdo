@@ -3,7 +3,7 @@
 <script>
 
   window.onload = function() {
-    send('<%= PLSM_ID %>');
+    read();
   };
 
   let counter = 10;
@@ -14,25 +14,38 @@
       console.log(counter);
     }
     if(counter==9){
-      send('<%= PLSM_ID %>');
+      read();
     }
-  }, 100);
+  }, 200);
 
   const socket = io.connect('http://localhost:3003', {
     path: '/socket.io', //socket.js의 path와 일치
     transports: ['websocket'],
   });
+
   socket.on('<%=PLSM_ID%>', function (data) {
     MONITER(data);
     LOG(data);
   });
-  async function send(PLSM_ID) {
+
+  async function read() {
     await axios({      
       url: "/api/plasma/read", // 요청 주소
       method: "post", // 요청 방식
-      data: {PLSM_ID:PLSM_ID},
+      data: {PLSM_ID:'<%= PLSM_ID %>'},
     })
     .then(function(res){
+    });
+  }
+
+  async function send(address,data) {
+    await axios({      
+      url: "/api/plasma/modify", // 요청 주소
+      method: "post", // 요청 방식
+      data: {PLSM_ID:'<%= PLSM_ID %>',ADDR:address,DATA:data},
+    })
+    .then(function(res){
+      if(res.data.result) counter = 0;
     });
   }
 
@@ -48,9 +61,9 @@
     else if(contents.actMode == 4){actMode[2]="button icon solid fa-check-circle";}
 
     HTML_Text += `<div class="col-3 col-12-xsmall">동작 모드</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actMode[0]}" onclick="alert('<%= PLSM_ID %>')"> 자 동 </span></div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actMode[1]}">스 케 쥴</span></div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actMode[2]}"> 수 동 </span></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actMode[0]}" onclick="send('65','Auto')"> 자 동 </span></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actMode[1]}" onclick="send('65','Timer')">스 케 쥴</span></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actMode[2]}" onclick="send('65','Manual')"> 수 동 </span></div>`
 
     let actStat = ["button alt","button alt","button alt"];
     if(contents.actStat == 1){actStat[0]="button icon solid fa-arrow-circle";}

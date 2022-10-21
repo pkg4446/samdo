@@ -44,7 +44,8 @@ module.exports = {
 		});
 
 		return true;
-	  } catch (error) {		
+	  } catch (error) {	
+		console.log(error);	
 		return false;
 	  }    
 	},
