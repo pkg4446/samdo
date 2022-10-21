@@ -48,7 +48,7 @@
 
   async function sendtext(id,data) {
     let addr = "";
-    if(id=="calendar"){  addr="6a"; }
+    if(id=="calendar"){  addr="6a"; data=data.slice(2)}
     else if(id=="clock"){addr="69"; }
     else if(id=="timeS"){addr="6b"; }
     else if(id=="timeE"){addr="6c"; }
