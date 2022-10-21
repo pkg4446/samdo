@@ -1,7 +1,12 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-  let counter = 0;
+
+  window.onload = function() {
+    send('<%= PLSM_ID %>');
+  };
+
+  let counter = 10;
 
   let interval = setInterval(function() {
     if(counter<10){
@@ -28,20 +33,57 @@
       data: {PLSM_ID:PLSM_ID},
     })
     .then(function(res){
-      console.log(res);
     });
   }
 
   function MONITER(contents){
-    let HTML_Text = "";
-    HTML_Text += `<div>통신누락: ${contents.tmErr}, 동작 모드: ${contents.actMode}, 
-    동작상태: ${contents.actStat}, 에러정보: ${contents.error},
-    현재시간: ${contents.time[0]}시 ${contents.time[1]}분 ${contents.time[2]}초, 
-    현재날짜: ${contents.day[0]}년 ${contents.day[1]}월 ${contents.day[2]}일,
-    시작시간: ${contents.tmOn[0]}시 ${contents.tmOn[1]}분 ${contents.tmOn[2]}초, 
-    종료시간: ${contents.tmOff[0]}시 ${contents.tmOff[1]}분 ${contents.tmOff[2]}초,
-    켜짐시간: ${contents.rpOn}, 꺼짐시간: ${contents.rpOff},
-    펌프시간: ${contents.pump}, 팬 상태: ${contents.fan}</div>`;
+    let HTML_Text = `<div class="row">`;
+
+    HTML_Text += `<div class="col-6 col-12-xsmall">통신상태: ${contents.tmErr} (0:정상, >0:정보누락 갯수)</div>
+    <div class="col-6 col-12-xsmall">에러정보: ${contents.error}</div>`;
+
+    let actMode = ["button alt","button alt","button alt"];
+    if(contents.actMode == 2){actMode[0]="button icon solid fa-check-circle";}
+    else if(contents.actMode == 3){actMode[1]="button icon solid fa-check-circle";}
+    else if(contents.actMode == 4){actMode[2]="button icon solid fa-check-circle";}
+
+    HTML_Text += `<div class="col-3 col-12-xsmall">동작 모드</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actMode[0]}" onclick="alert('<%= PLSM_ID %>')"> 자 동 </span></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actMode[1]}">스 케 쥴</span></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actMode[2]}"> 수 동 </span></div>`
+
+    let actStat = ["button alt","button alt","button alt"];
+    if(contents.actStat == 1){actStat[0]="button icon solid fa-arrow-circle";}
+    else if(contents.actStat == 2){actStat[1]="button icon solid fa-arrow-circle";}
+    else if(contents.actStat == 4){actStat[2]="button icon solid fa-arrow-circle";}
+    HTML_Text += `<div class="col-3 col-12-xsmall">동작 상태</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actStat[0]}">플라즈마</span></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actStat[1]}">급 기 팬</span></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actStat[2]}">물 펌 프</span></div>`
+      
+    HTML_Text += `<div class="col-3 col-12-xsmall">장비시계:</div>`
+    HTML_Text += `<div class="col-9 col-12-xsmall"> ${contents.day[0]}년 ${contents.day[1]}월 ${contents.day[2]}일,
+                  ${contents.time[0]}시 ${contents.time[1]}분 ${contents.time[2]}초 </div>`
+
+    HTML_Text += `<div class="col-3 col-12-xsmall">시작시간:</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall">${contents.tmOn[0]}시 ${contents.tmOn[1]}분 ${contents.tmOn[2]}초</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall">종료시간:</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall">${contents.tmOff[0]}시 ${contents.tmOff[1]}분 ${contents.tmOff[2]}초</div>`
+
+    HTML_Text += `<div class="col-3 col-12-xsmall">반복시간(켜짐):</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall">${contents.rpOn} 초</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall">반복시간(꺼짐):</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall">${contents.rpOff} 초</div>`
+
+    HTML_Text += `<div class="col-3 col-12-xsmall">펌프시간:</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall">${contents.pump} 초</div>`
+    
+    let fan = "자동켜짐";
+    if(contents.fan==2){ fan = "항상켜짐"; }
+    HTML_Text += `<div class="col-3 col-12-xsmall">팬 설정:</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall">${fan}</div>`
+
+    HTML_Text += "</div>";
     document.getElementById("moniter").innerHTML = HTML_Text;
   }
 
@@ -54,16 +96,17 @@
     시작시간: ${contents.tmOn[0]}시 ${contents.tmOn[1]}분 ${contents.tmOn[2]}초, 
     종료시간: ${contents.tmOff[0]}시 ${contents.tmOff[1]}분 ${contents.tmOff[2]}초,
     켜짐시간: ${contents.rpOn}, 꺼짐시간: ${contents.rpOff},
-    펌프시간: ${contents.pump}, 팬 상태: ${contents.fan}</div>`;
+    펌프시간: ${contents.pump}, 팬 설정: ${contents.fan}</div>`;
     document.getElementById("log").innerHTML = HTML_Text;
   }
 </script>
 
 <div class="wrapper style1">
-  <div onclick="send('<%= PLSM_ID %>')">갱신</div>
-  <div>moniter</div>
+  <h1> [ <%= PLSM_ID %> ]</h1>
   <div id="moniter"></div>
+</div>
+<div class="wrapper style2">
   <div id="log">
-    <div>Data Log</div>
+    <div>Data Log</div><hr>
   </div>
 </div>
