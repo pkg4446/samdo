@@ -22,7 +22,6 @@ router.post('/read',async function(req, res, next) {
 });
 
 router.post('/modify',async function(req, res, next) {
-    console.log(req.body);
     const response = {
         result: true,
         data:   null,

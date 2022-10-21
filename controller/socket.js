@@ -34,7 +34,6 @@ module.exports = (server) => {
             buffer.push(data.DATA[index]);
           }
         }
-        console.log(data.DATA.length,buffer.length);
 
         const time  = BinaryZero(buffer[17].toString(2))+BinaryZero(buffer[18].toString(2));
         const day   = BinaryZero(buffer[19].toString(2))+BinaryZero(buffer[20].toString(2));
@@ -53,9 +52,6 @@ module.exports = (server) => {
           rpOff:    buffer[27]+buffer[28],
           pump:     buffer[29]+buffer[30],
           fan:      buffer[31].toString(16) + buffer[32].toString(16)
-        }
-        for(let key in response){
-          console.log(key,response[key],typeof(response[key]));
         }
         
         io.emit(data.PLSM_ID,response);
@@ -82,6 +78,6 @@ function BinaryZero(data){
 }
 
 function BinaryParse(data,slice){
-  const response = (`${parseInt(data.substring(0, slice), 2)},${parseInt(data.substring(5, 11), 2)},${parseInt(data.substring(11, 16), 2)}`).split(",");
+  const response = (`${parseInt(data.substring(0, slice), 2)},${parseInt(data.substring(slice, 11), 2)},${parseInt(data.substring(11, 16), 2)}`).split(",");
   return response;
 }
