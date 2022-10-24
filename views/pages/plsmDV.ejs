@@ -18,13 +18,6 @@
     }
   }, 200);
 
-  const socket = io();
-
-  socket.on('<%=PLSM_ID%>', function (data) {
-    MONITER(data);
-    LOG(data);
-  });
-
   async function read() {
     await axios({      
       url: "/api/plasma/read", // 요청 주소
