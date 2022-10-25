@@ -1,0 +1,32 @@
+<div id="main-wrapper">
+    <div class="wrapper style3">
+        <div class="inner">
+            <div class="container">
+
+            <!-- Article list -->
+                <section class="box article-list">
+                    <h2 class="icon fa-file-alt">악취 센서 목록</h2>
+                    <% 
+                    for(let element of list){ 
+                        const rendomInt = Math.floor(Math.random()*3) + 4;
+                    %>                        
+                    <!-- Excerpt -->
+                    <article class="box excerpt">
+                        <a href="/web/sensor/model/<%= element.SENSOR_ID %>" class="image left"><img src="/public/images/pic0<%=rendomInt%>.jpg" alt="" /></a>
+                        <div>
+                            <header>
+                                <h3>장비명 : <%= element.SENSOR_ID %></h3>
+                            </header>     
+                            <p>포트 : <%= element.SENSOR_PORT %></p>                                
+                            <p>프로토콜 ID : <%= element.PRTC_ID %></p>
+                            <hr>                            
+                            <p>GPS - 경도:<%= element.GPS_LONGITUDE %> / 위도:<%= element.GPS_LATITUDE %></p> 
+                        </div>
+                    </article>
+                    <% } %>
+                </section>
+                   
+            </div>
+        </div>
+    </div>
+</div>

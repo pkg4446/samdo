@@ -5,7 +5,7 @@ module.exports = class Plasma extends Sequelize.Model{
         return super.init({
             
             PLSM_ID: {
-                type: Sequelize.STRING(8),
+                type: Sequelize.STRING(32),
                 primaryKey: true,
                 allowNull: false,
             },

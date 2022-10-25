@@ -1,4 +1,5 @@
-const sensor      = require("../models/sensor");
+const sensor    = require("../models/sensor");
+const sensorLog = require("../models/sensorLog");
 
 const Sequelize   = require('./module');
 const { Op }    = require("sequelize");
@@ -18,7 +19,7 @@ module.exports = {
       const object = await sensor.create({
         SENSOR_ID:      data.SENSOR_ID,
         GPS_LATITUDE:   data.GPS_LATITUDE,
-        GPS_LONGITUDE:  data. GPS_LONGITUDE,
+        GPS_LONGITUDE:  data.GPS_LONGITUDE,
         SENSOR_PORT:    data.SENSOR_PORT,
         SENSOR_IP:      data.SENSOR_IP,
       });

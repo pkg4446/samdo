@@ -7,6 +7,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 const user      = require('./user');
 const plasma    = require('./plasma');
 const sensor    = require('./sensor');
+const sensorLog = require('./sensorLog');
 
 db.sequelize    = sequelize;
 db.user         = user;
@@ -20,6 +21,10 @@ plasma.associate(db);
 db.sensor       = sensor;
 sensor.init(sequelize);
 sensor.associate(db);
+
+db.sensorLog    = sensorLog;
+sensorLog.init(sequelize);
+sensorLog.associate(db);
 
 //모듈
 module.exports = db;
