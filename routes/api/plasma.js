@@ -1,8 +1,8 @@
 const express   = require('express');
 const router    = express.Router();
 
-const webapi       = require("../../controller/webapi");
-const devices   = require("../../controller/devices");
+const webapi    = require("../../controller/webapi");
+const plasma   = require("../../controller/plasma");
 
 router.post('/read',async function(req, res, next) {
     const response = {
@@ -10,7 +10,7 @@ router.post('/read',async function(req, res, next) {
         data:   null,
     }
     try {
-        const webapidata = await devices.plasma_read(req.body.PLSM_ID);
+        const webapidata = await plasma.plasma_read(req.body.PLSM_ID);
         const res = await webapi.read(webapidata.PLSM_IP,webapidata.PLSM_PORT);
         if(res.success){
             const buffer = res.mem[1];
@@ -45,7 +45,7 @@ router.post('/modify',async function(req, res, next) {
         data:   null,
     }
     try {
-        const webapidata = await devices.plasma_read(req.body.PLSM_ID);
+        const webapidata = await plasma.plasma_read(req.body.PLSM_ID);
         const commend = req.body.ADDR.toString();
         const request = req.body.DATA;
         let   hexData = "";
@@ -96,7 +96,7 @@ router.post('/list',async function(req, res, next) {
         data:   null,
     }
     try {
-        response.data = await devices.list();
+        response.data = await plasma.list();
     } catch (error) {
         response.result = false;
         next(error);
@@ -122,7 +122,7 @@ router.post('/regist',async function(req, res, next) {
                 PLSM_PORT:  req.body.PLSM_PORT,
                 PLSM_IP:    req.body.PLSM_IP    
             }   
-            response.data = await devices.plasma_create(data);
+            response.data = await plasma.plasma_create(data);
         }        
     } catch (error) {
         response.result = false;

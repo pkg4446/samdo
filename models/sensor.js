@@ -1,21 +1,30 @@
 const Sequelize = require('sequelize');
 
-module.exports = class Plasma extends Sequelize.Model{
+module.exports = class Sensor extends Sequelize.Model{
     static init(sequelize) {
         return super.init({
-            
-            PLSM_ID: {
+            SENSOR_ID: {
                 type: Sequelize.STRING(8),
                 primaryKey: true,
                 allowNull: false,
             },
 
-            PLSM_PORT: {
+            GPS_LATITUDE: {
+                type: Sequelize.DECIMAL(10,6),
+                allowNull: false,
+            },
+            
+            GPS_LONGITUDE: {
+                type: Sequelize.DECIMAL(10,6),
+                allowNull: false,
+            },
+
+            SENSOR_PORT: {
                 type: Sequelize.STRING(4),
                 allowNull: false,
             },
 
-            PLSM_IP:  {
+            SENSOR_IP:  {
                 type: Sequelize.STRING(16),
                 allowNull: false,
             },
@@ -30,8 +39,8 @@ module.exports = class Plasma extends Sequelize.Model{
             sequelize,
             timestamps : false,
             underscored: false,
-            modelName  : 'Plasma',
-            tableName  : 'plasma',
+            modelName  : 'Sensor',
+            tableName  : 'sensor',
             paranoid   : true,
             charset    : 'utf8',
             collate    : 'utf8_general_ci',

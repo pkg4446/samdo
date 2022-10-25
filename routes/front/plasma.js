@@ -1,9 +1,9 @@
 const express   = require('express');
 const router    = express.Router();
-const devices   = require("../../controller/devices");
+const plasma    = require("../../controller/plasma");
 
 router.get('/list', async function(req, res) {
-    const response = await devices.list();
+    const response = await plasma.list();
     res.render('pages/plsmList',{list:response});
     });
 
