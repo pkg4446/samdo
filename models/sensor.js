@@ -29,6 +29,11 @@ module.exports = class Sensor extends Sequelize.Model{
                 allowNull: false,
             },
 
+            SENSOR_MEMORY:  {
+                type: Sequelize.TINYINT.UNSIGNED,
+                allowNull: false,
+            },
+
             PRTC_ID:  {
                 type: Sequelize.STRING(4),
                 allowNull: false,

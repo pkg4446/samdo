@@ -22,6 +22,7 @@ module.exports = {
         GPS_LONGITUDE:  data.GPS_LONGITUDE,
         SENSOR_PORT:    data.SENSOR_PORT,
         SENSOR_IP:      data.SENSOR_IP,
+        SENSOR_MEMORY:  data.SENSOR_MEMORY
       });
       return object;
     } catch (error) {
