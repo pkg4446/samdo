@@ -8,6 +8,7 @@ const dotenv          = require('dotenv');
 const passport        = require('passport');
 
 dotenv.config();
+const indexRoutine    = require('./routine');
 const indexRouter     = require('./routes');
 const {sequelize}     = require('./models');
 const passportConfig  = require('./passport');

@@ -74,4 +74,23 @@ module.exports = {
       console.error(error);
     }
   },
+
+  loging : async function(data){
+    try {
+      const object = await sensorLog.create({
+        SENSOR_ID:  data.SENSOR_ID,
+        TEMP:       data.TEMP,
+        HUMI:       data.HUMI,
+        PM25:       data.PM25,
+        H2S:        data.H2S,
+        NH3:        data.NH3,
+        CH2O:       data.CH2O,
+        VOCS:       data.VOCS,
+        O3:         data.O3
+      });
+      return object;
+    } catch (error) {
+      console.error(error);
+    }
+  },
 }

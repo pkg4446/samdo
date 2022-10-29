@@ -21,49 +21,49 @@ module.exports = class SensorLog extends Sequelize.Model{
             },
             //측정값            
             //온도
-            TMPR: {
+            TEMP: {
                 type: Sequelize.SMALLINT.UNSIGNED,
                 allowNull: false,
                 defaultValue: 0
             },
             //습도
-            HMDT: {
+            HUMI: {
                 type: Sequelize.SMALLINT.UNSIGNED,
                 allowNull: false,
                 defaultValue: 0
             },
-            //일산화탄소
-            CD: {  ////Carbon Dioxide
+
+            PM25: {  ////Carbon Dioxide
                 type: Sequelize.SMALLINT.UNSIGNED,
                 allowNull: false,
                 defaultValue: 0
             },
-            //암모니아
-            AMN: {
+
+            H2S: {
                 type: Sequelize.SMALLINT.UNSIGNED,
                 allowNull: false,
                 defaultValue: 0
             },
-            //황화수소
-            HYD_SLF: {
+
+            NH3: {
                 type: Sequelize.SMALLINT.UNSIGNED,
                 allowNull: false,
                 defaultValue: 0
             },
-            //이산화탄소
-            CO2: {
+
+            CH2O: {
                 type: Sequelize.SMALLINT.UNSIGNED,
                 allowNull: false,
                 defaultValue: 0
             },
-            //메탄
-            MTHN: {
-                type: Sequelize.SMALLINT.UNSIGNED,
-                allowNull: false,
-                defaultValue: 0
-            },
-            //
+
             VOCS: {
+                type: Sequelize.SMALLINT.UNSIGNED,
+                allowNull: false,
+                defaultValue: 0
+            },
+
+            O3: {
                 type: Sequelize.SMALLINT.UNSIGNED,
                 allowNull: false,
                 defaultValue: 0
