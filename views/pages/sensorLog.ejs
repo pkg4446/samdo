@@ -1,0 +1,32 @@
+<div id="main-wrapper">
+    <div class="wrapper style3">
+        <div class="inner">
+            <div class="container">
+
+            <!-- Article list -->
+                <section class="box article-list">
+                    <h2 class="icon fa-file-alt">악취 현황</h2>
+                    <% 
+                    for(let element of list){ 
+                        const rendomInt = Math.floor(Math.random()*3) + 4;
+                    %>                        
+                    <!-- Excerpt -->
+                    <article class="box excerpt">
+                        <div>
+                            <header>
+                                <h3>장비명 : <%= element.SENSOR_ID %></h3>
+                                <h1>측정시간 : <%= element.MESURE_DT %></h1>
+                            </header>     
+                            <p>온도:<%= element.TEMP/10 %> / 습도:<%= element.HUMI/10 %> / 
+                                미세먼지:<%= element.PM25 %> / 황화수소 : <%= element.H2S %> / 
+                                암모니아:<%= element.NH3/1000 %> / 포름알데히드:<%= element.CH2O %> / 
+                                VOCS:<%= element.VOCS %> / 오존:<%= element.O3 %></p>  
+                        </div>
+                    </article>
+                    <% } %>
+                </section>
+                   
+            </div>
+        </div>
+    </div>
+</div>

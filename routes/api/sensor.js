@@ -11,7 +11,6 @@ router.post('/read',async function(req, res, next) {
         data:   null,
     }
     try {
-
         const webapidata = await sensor.sensor_read(req.body.SENSOR_ID);
         //webapidata = {SENSOR_ID,GPS_LATITUDE,GPS_LONGITUDE,SENSOR_PORT,SENSOR_IP}
         const res = await webapi.read(webapidata.SENSOR_IP,webapidata.SENSOR_PORT,webapidata.SENSOR_MEMORY,8);

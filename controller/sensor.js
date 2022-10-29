@@ -75,6 +75,19 @@ module.exports = {
     }
   },
 
+  log : async function(){
+    try {
+      const object = await sensorLog.findAll({
+        limit: 100,
+        order: [["IDX","DESC"]],
+        raw:  true,
+      });
+      return object;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   loging : async function(data){
     try {
       const object = await sensorLog.create({

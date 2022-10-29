@@ -11,6 +11,11 @@ router.get('/add', async function(req, res) {
     res.render('pages/sensorAdd');
     });
 
+router.get('/log', async function(req, res) {
+    const response = await sensor.log();
+    res.render('pages/sensorLog',{list:response});
+    });
+
 router.get('/model/:sensor_ID', async function(req, res) {
     res.render('pages/sensorDV',{SENSOR_ID:req.params.sensor_ID});
     });
