@@ -17,10 +17,11 @@
                             <header>
                                 <h3>장비명 : <%= element.SENSOR_ID %></h3>
                             </header>     
-                            <p>포트 : <%= element.SENSOR_PORT %></p>                                
+                            <p>포 &emsp;&emsp;&emsp;트 : <%= element.SENSOR_PORT %></p>                                
                             <p>프로토콜 ID : <%= element.PRTC_ID %></p>
-                            <hr>                            
-                            <p>GPS - 경도:<%= element.GPS_LONGITUDE %> / 위도:<%= element.GPS_LATITUDE %></p> 
+                            <p>메모리 주소 : <%= element.SENSOR_MEMORY %></p>
+                            <p>G P S - 위도 : <%= element.GPS_LATITUDE %></p> 
+                            <p>G P S - 경도 : <%= element.GPS_LONGITUDE %></p> 
                         </div>
                     </article>
                     <% } %>

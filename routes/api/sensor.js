@@ -14,9 +14,9 @@ router.post('/read',async function(req, res, next) {
 
         const webapidata = await sensor.sensor_read(req.body.SENSOR_ID);
         //webapidata = {SENSOR_ID,GPS_LATITUDE,GPS_LONGITUDE,SENSOR_PORT,SENSOR_IP}
-        const res = await webapi.read(webapidata.SENSOR_IP,webapidata.SENSOR_PORT,21,8);
+        const res = await webapi.read(webapidata.SENSOR_IP,webapidata.SENSOR_PORT,webapidata.SENSOR_MEMORY,8);
         if(res.success){
-            const buffer = res.mem[21];
+            const buffer = res.mem[webapidata.SENSOR_MEMORY];
             response.data = {
                 PM25:   buffer[0],
                 H2S:    buffer[1],
@@ -33,7 +33,6 @@ router.post('/read',async function(req, res, next) {
         response.result = false;
         next(error);
     }
-    console.log(response);
     res.json(response);
 });
 
