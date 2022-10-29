@@ -1,9 +1,9 @@
 const axios = require('axios');
 
 module.exports = {
-	read: async function(Host,Port){
+	read: async function(Host,Port,NumS,NumE){
 	try {	
-		const URL = `http://${Host}:${Port}/script/0000/mem_to_json(1,12)`;	
+		const URL = `http://${Host}:${Port}/script/0000/mem_to_json(${NumS},${NumE})`;	
 		let response = null;
 		await axios({
 			method: "get", 	// 요청 방식

@@ -2,7 +2,8 @@ require('dotenv').config();
 const express   = require('express');
 const router    = express.Router();
 
-const sensor   = require("../../controller/sensor");
+const webapi    = require("../../controller/webapi");
+const sensor    = require("../../controller/sensor");
 
 router.post('/read',async function(req, res, next) {
     const response = {
@@ -11,24 +12,18 @@ router.post('/read',async function(req, res, next) {
     }
     try {
 
-    } catch (error) {
-        response.result = false;
-        next(error);
-    }
-    res.json(response);
-});
+        const webapidata = await sensor.sensor_read(req.body.SENSOR_ID);
+        //webapidata = {SENSOR_ID,GPS_LATITUDE,GPS_LONGITUDE,SENSOR_PORT,SENSOR_IP}
+        const res = await webapi.read(webapidata.SENSOR_IP,webapidata.SENSOR_PORT,20,60);
+        console.log(res);
+        if(res.success){
+        }
 
-router.post('/modify',async function(req, res, next) {
-    const response = {
-        result: true,
-        data:   null,
-    }
-    try {
-        
     } catch (error) {
         response.result = false;
         next(error);
     }
+    console.log(response);
     res.json(response);
 });
 

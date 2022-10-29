@@ -1,6 +1,24 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
-<script>
+<script>  
+  window.onload = function() {
+    read();
+  };
+  
+  async function read() {
+    await axios({      
+      url: "/api/sensor/read", // 요청 주소
+      method: "post", // 요청 방식
+      data: {SENSOR_ID:'<%= SENSOR_ID %>'},
+    })
+    .then(function(res){
+      if(res.data.result){
+        MONITER(res.data.data);
+      }
+    });
+  }
+
+
 </script>
 
 <div class="wrapper style1">

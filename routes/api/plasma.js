@@ -11,7 +11,7 @@ router.post('/read',async function(req, res, next) {
     }
     try {
         const webapidata = await plasma.plasma_read(req.body.PLSM_ID);
-        const res = await webapi.read(webapidata.PLSM_IP,webapidata.PLSM_PORT);
+        const res = await webapi.read(webapidata.PLSM_IP,webapidata.PLSM_PORT,1,12);
         if(res.success){
             const buffer = res.mem[1];
             const time  = BinaryZero(buffer[4]);
