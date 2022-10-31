@@ -50,7 +50,6 @@ router.post('/list',async function(req, res, next) {
 });
 
 router.post('/regist',async function(req, res, next) {
-    console.log(req.body.SENSOR_MEMORY);
     const response = {
         result: true,
         data:   null,
