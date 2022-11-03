@@ -2,7 +2,6 @@ require("dotenv").config({ path: "../.env" });
 const {sequelize}   = require('../models');
 const sensor        = require('../controller/sensor');
 const webapi        = require('../controller/webapi');
-const plasma        = require("../../controller/plasma");
 
 dataSave    = setInterval(async function() {
     try {
@@ -24,7 +23,7 @@ dataSave    = setInterval(async function() {
                     O3:     buffer[7],                
                 }
                 await sensor.loging(logData);
-                if(NH3>1){
+                if(buffer[2]>1){
                     await webapi.modify(iterator.SENSOR_IP,iterator.SENSOR_PORT,"101",2);
                 }
             }            
