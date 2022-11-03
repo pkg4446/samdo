@@ -2,7 +2,7 @@ const express   = require('express');
 const router    = express.Router();
 
 const webapi    = require("../../controller/webapi");
-const plasma   = require("../../controller/plasma");
+const plasma    = require("../../controller/plasma");
 
 router.post('/read',async function(req, res, next) {
     const response = {
