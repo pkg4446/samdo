@@ -23,8 +23,10 @@ dataSave    = setInterval(async function() {
                     O3:     buffer[7],                
                 }
                 await sensor.loging(logData);
-                if(buffer[2]>1){
+                if(buffer[2] >= 1){
                     await webapi.modify(iterator.SENSOR_IP,iterator.SENSOR_PORT,"101",2);
+                }else if(buffer[2] == 0){
+                    await webapi.modify(iterator.SENSOR_IP,iterator.SENSOR_PORT,"101",4);
                 }
             }            
         }
