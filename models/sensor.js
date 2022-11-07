@@ -40,6 +40,23 @@ module.exports = class Sensor extends Sequelize.Model{
                 defaultValue: "0000"
             },
 
+            CTL_S2H: {
+                type: Sequelize.SMALLINT.UNSIGNED,
+                allowNull: false,
+                defaultValue: 0
+            },
+
+            CTL_NH3: {
+                type: Sequelize.SMALLINT.UNSIGNED,
+                allowNull: false,
+                defaultValue: 0
+            },
+
+            CTL_PLSM: {
+                type: Sequelize.BOOLEAN,
+                allowNull: false,
+                defaultValue: false
+            },
         },{
             sequelize,
             timestamps : false,

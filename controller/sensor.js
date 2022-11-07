@@ -30,6 +30,34 @@ module.exports = {
     }
   },
 
+  ctl_update : async function(SENSOR_ID,TYPE,VALUE){
+    try {      
+      const object =  await sensor.findByPk(SENSOR_ID)
+      .then(async function(response) {
+        if(TYPE == "H2S"){
+          await response.update({CTL_S2H:VALUE});
+        }else if(TYPE == "NH3"){
+          await response.update({CTL_NH3:VALUE});
+        }          
+      });      
+      return object;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  ctl_plsm : async function(SENSOR_ID,ONOFF){
+    try {      
+      const object =  await sensor.findByPk(SENSOR_ID)
+      .then(async function(response) {
+        await response.update({CTL_PLSM:ONOFF});
+      });      
+      return object;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   sensor_update : async function(SENSOR_ID){
     try {      
       const object =  await sensor.findByPk(SENSOR_ID)

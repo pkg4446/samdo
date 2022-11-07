@@ -22,11 +22,14 @@ dataSave    = setInterval(async function() {
                     VOCS:   buffer[6],
                     O3:     buffer[7],                
                 }
-                await sensor.loging(logData);
-                if(buffer[2] >= 1){
-                    await webapi.modify(iterator.SENSOR_IP,iterator.SENSOR_PORT,"101",2);
-                }else if(buffer[2] == 0){
-                    await webapi.modify(iterator.SENSOR_IP,iterator.SENSOR_PORT,"101",4);
+                if(iterator.CTL_S2H > 0 || iterator.CTL_NH3 > 0){
+                    if(!iterator.CTL_PLSM&&((buffer[1] > iterator.CTL_S2H)||(buffer[2] > iterator.CTL_NH3))){
+                        await webapi.modify(iterator.SENSOR_IP,iterator.SENSOR_PORT,"101",2);
+                        await sensor.ctl_plsm(iterator.SENSOR_IP,true);
+                    }else if(iterator.CTL_PLSM&&(iterator.CTL_S2H <= 0 || buffer[1] <= iterator.CTL_S2H*0.9)&&(iterator.CTL_S2H <= 0 ||buffer[2] <= iterator.CTL_NH3*0.9)){
+                        await webapi.modify(iterator.SENSOR_IP,iterator.SENSOR_PORT,"101",4);
+                        await sensor.ctl_plsm(iterator.SENSOR_IP,false);
+                    }
                 }
             }            
         }

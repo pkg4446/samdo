@@ -18,11 +18,23 @@
     });
   }
 
+  async function AutoControle(ID) {
+    let value = document.getElementById(ID).value
+    await axios({      
+      url: "/api/sensor/controle", // 요청 주소
+      method: "post", // 요청 방식
+      data: {SENSOR_ID:'<%= SENSOR_ID %>',TYPE:ID,DATA:value},
+    })
+    .then(function(res){
+      if(res.data.data.success) counter = 0;
+    });
+  }
+
   function MONITER(contents){
     let HTML_Text = `<div class="row">`;
 
     HTML_Text += `<div class="col-3 col-12-xsmall">PM2.5:</div>`;
-    HTML_Text += `<div class="col-3 col-12-xsmall">${contents.PM25} PPM</div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall">${contents.PM25} </div>`;
     HTML_Text += `<div class="col-3 col-12-xsmall">H2S:</div>`;
     HTML_Text += `<div class="col-3 col-12-xsmall">${contents.H2S} PPM</div>`;
     HTML_Text += `<div class="col-3 col-12-xsmall">NH3:</div>`;
@@ -37,6 +49,14 @@
     HTML_Text += `<div class="col-3 col-12-xsmall">${contents.VOCS} PPM</div>`;
     HTML_Text += `<div class="col-3 col-12-xsmall">O3:</div>`;
     HTML_Text += `<div class="col-3 col-12-xsmall">${contents.O3} PPM</div>`;
+      
+    HTML_Text += `<div class="col-12 col-12-xsmall"><hr><br><h2>[플라즈마 장비 작동값 설정]</h2></div>`;
+    HTML_Text += `<div class="col-1 col-12-xsmall"><h1>황화수소 농도</h1></div>`
+    HTML_Text += `<div class="col-2 col-12-xsmall"><input type="number" min="0" id="H2S" value="${contents.CTL_S2H}"> ppm</input></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="button icon solid fa-check-circle" onclick="AutoControle('H2S')">황화수소 설정 변경</span></div>`
+    HTML_Text += `<div class="col-1 col-12-xsmall"><h1>암모니아 농도</h1></div>`
+    HTML_Text += `<div class="col-2 col-12-xsmall"><input type="number" min="0" id="NH3" value="${contents.CTL_NH3}"> ppm</input></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="button icon solid fa-check-circle" onclick="AutoControle('NH3')">암모니아 설정 변경</span></div>`
 
     HTML_Text += "</div>";
     document.getElementById("moniter").innerHTML = HTML_Text;

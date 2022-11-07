@@ -16,6 +16,7 @@ router.post('/read',async function(req, res, next) {
         const res = await webapi.read(webapidata.SENSOR_IP,webapidata.SENSOR_PORT,webapidata.SENSOR_MEMORY,8);
         if(res.success){
             const buffer = res.mem[webapidata.SENSOR_MEMORY];
+            const controle = await sensor.sensor_read(req.body.SENSOR_ID);
             response.data = {
                 PM25:   buffer[0],
                 H2S:    buffer[1],
@@ -24,10 +25,27 @@ router.post('/read',async function(req, res, next) {
                 TEMP:   buffer[4]/10,
                 HUMI:   buffer[5]/10,
                 VOCS:   buffer[6]/10,
-                O3:     buffer[7]/1000,                
+                O3:     buffer[7]/1000,  
+                CTL_S2H:controle.CTL_S2H,
+                CTL_NH3:controle.CTL_NH3
             }
         }
 
+    } catch (error) {
+        response.result = false;
+        next(error);
+    }
+    res.json(response);
+});
+
+
+router.post('/controle',async function(req, res, next) {
+    const response = {
+        result: true,
+        data:   null,
+    }
+    try {
+        await sensor.ctl_update(req.body.SENSOR_ID,req.body.TYPE,req.body.DATA);
     } catch (error) {
         response.result = false;
         next(error);
