@@ -22,6 +22,7 @@ dataSave    = setInterval(async function() {
                     VOCS:   buffer[6],
                     O3:     buffer[7],                
                 }
+                await sensor.loging(logData);
                 if(iterator.CTL_S2H > 0 || iterator.CTL_NH3 > 0){
                     if(!iterator.CTL_PLSM&&((buffer[1] > iterator.CTL_S2H)||(buffer[2] > iterator.CTL_NH3))){
                         await webapi.modify(iterator.SENSOR_IP,iterator.SENSOR_PORT,"101",2);
