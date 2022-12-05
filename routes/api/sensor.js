@@ -79,7 +79,7 @@ router.post('/regist',async function(req, res, next) {
             ADDR:   null,
             X:      null,
             Y:      null
-        }        
+        }
         if(req.body.SENSOR_IP.length<7 || !isNaN(req.body.SENSOR_IP)){
             response.result  = false;
             response.data    = "IP가 올바르지 않습니다."
