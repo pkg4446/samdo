@@ -93,9 +93,10 @@ module.exports = {
     }
   },
 
-  list : async function(){
+  list : async function(USER_EMAIL){
     try {
       const object = await sensor.findAll({
+        where: {USER_EMAIL: USER_EMAIL},
         raw:  true,
       });
       return object;

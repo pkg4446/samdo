@@ -3,8 +3,7 @@ const router    = express.Router();
 const plasma    = require("../../controller/plasma");
 
 router.get('/list', async function(req, res) {
-    if(req.body.USER_EMAIL == undefined) req.body.USER_EMAIL = req.user.USER_EMAIL;
-    const response = await plasma.list(req.body.USER_EMAIL);    
+    const response = await plasma.list(req.user.USER_EMAIL);    
     res.render('pages/plsmList',{list:response});
     });
 

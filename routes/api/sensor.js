@@ -73,7 +73,9 @@ router.post('/list',async function(req, res, next) {
         data:   null,
     }
     try {
-        response.data = await sensor.list();
+        if(req.body.USER_EMAIL == undefined) req.body.USER_EMAIL = req.user.USER_EMAIL;
+        console.log(req.body);
+        response.data = await sensor.list(req.body.USER_EMAIL);
     } catch (error) {
         response.result = false;
         next(error);

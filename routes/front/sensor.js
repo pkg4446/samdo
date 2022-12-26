@@ -3,7 +3,7 @@ const router    = express.Router();
 const sensor    = require("../../controller/sensor");
 
 router.get('/list', async function(req, res) {
-    const response = await sensor.list();
+    const response = await sensor.list(req.user.USER_EMAIL);
     res.render('pages/sensorList',{list:response});
     });
 
