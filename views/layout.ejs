@@ -21,24 +21,15 @@
             <%- include('footer') %>       
         </div>
 
-        <!-- Scripts -->     
-        <%- script %>    
+        <!-- Scripts -->             
         <script src="/public/js/jquery.min.js"></script>
         <script src="/public/js/jquery.dropotron.min.js"></script>
         <script src="/public/js/browser.min.js"></script>
         <script src="/public/js/breakpoints.min.js"></script>
         <script src="/public/js/util.js"></script>
         <script src="/public/js/main.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                if(sessionStorage.name){
-                    sessionStorage.clear();
-                    document.getElementById('login').innerHTML = `<a href="/user/logout">로그아웃</a>`;
-                }else{                    
-                    document.getElementById('login').innerHTML = `<a href="/web/user/login">로그인</a>`;                    
-                }
-            });
-        </script>
+        <%- script %>       
+        
     </body>      
 </html>
 

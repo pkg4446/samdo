@@ -1,3 +1,13 @@
+<script type="text/javascript">
+	window.onload = function() {
+		if(sessionStorage.name){
+			sessionStorage.clear();
+			document.getElementById('logInOut').innerHTML = `<a href="/user/logout">로그아웃</a>`;
+		}else{                    
+			document.getElementById('logInOut').innerHTML = `<a href="/web/user/login">로그인</a>`;                    
+		}
+	}
+</script>
 <!-- Header -->
 <header id="header">
 	<div class="inner">
@@ -23,7 +33,7 @@
 				</li>
 				
 				<li class="current_page_item"><a href="/web/sensor/log">악취현황</a></li>
-				<li class="current_page_item" id="login"></li>
+				<li class="current_page_item" id="logInOut"></li>
 			</ul>
 		</nav>
 	</div>

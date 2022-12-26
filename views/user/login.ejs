@@ -1,16 +1,15 @@
 <!-- script -->
-
-<script type="text/javascript">      
+<script type="text/javascript">   
     function submitfn(){
-        let formData = $("#login").serialize();   
-
+        let formData = $("#login").serialize();        
+        let url = document.location.href;
+       
         $.ajax({    
             cache : false,
             url : "/user/login",
             type : 'POST', 
             data : formData, 
             success : function(data) {
-                console.log(data)
                 if(!data)
                 {
                     alert("아이디가 없거나, 비밀번호가 다릅니다.");
@@ -18,9 +17,8 @@
                     if(window.sessionStorage) {
                         sessionStorage.clear();
                     }                    
-                    
                     sessionStorage.setItem("name", data);
-                    window.location.href = "/" ;
+                    window.location.href = '/'
                 }
             }, // success 
     
@@ -30,10 +28,6 @@
         }); // $.ajax */
     }
 </script>
-
-
-
-
 
 
 <div id="main" class="alt">
