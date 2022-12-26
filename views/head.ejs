@@ -1,8 +1,8 @@
 <script type="text/javascript">
 	window.onload = function() {
-		if(sessionStorage.name){
-			sessionStorage.clear();
+		if(sessionStorage.name){			
 			document.getElementById('logInOut').innerHTML = `<a href="/user/logout">로그아웃</a>`;
+			sessionStorage.clear();
 		}else{                    
 			document.getElementById('logInOut').innerHTML = `<a href="/web/user/login">로그인</a>`;                    
 		}

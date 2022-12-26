@@ -9,6 +9,11 @@ module.exports = class Sensor extends Sequelize.Model{
                 allowNull: false,
             },
 
+            USER_EMAIL: {
+                type: Sequelize.STRING(32),
+                allowNull: false,
+            },
+
             GPS_LATITUDE: {
                 type: Sequelize.DECIMAL(10,6),
                 allowNull: false,

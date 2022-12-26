@@ -10,6 +10,11 @@ module.exports = class Plasma extends Sequelize.Model{
                 allowNull: false,
             },
 
+            USER_EMAIL: {
+                type: Sequelize.STRING(32),
+                allowNull: false,
+            },
+
             PLSM_PORT: {
                 type: Sequelize.STRING(4),
                 allowNull: false,
