@@ -1,3 +1,28 @@
+<!-- script -->
+<script type="text/javascript">   
+
+    function submitfn(PLSM_ID){
+        $.ajax({    
+            cache : false,
+            url : "/api/plasma/del",
+            type : 'POST', 
+            data : {PLSM_ID:PLSM_ID}, 
+            success : function(data) {
+                if(data.result){
+                    window.location.href = "/web/plasma/list";
+                }else{
+                    alert(data.data);
+                }
+            }, // success 
+    
+            error : function(xhr, status) {
+                console.log(JSON.stringify(xhr) + " : " + status);
+            }            
+        }); // $.ajax */
+    }
+</script>
+<!-- script -->
+
 <div id="main-wrapper">
     <div class="wrapper style3">
         <div class="inner">
@@ -19,6 +44,7 @@
                             </header>
                             <p>포 &emsp;&emsp;&emsp;트 : <%= element.PLSM_PORT %></p>                                
                             <p>프로토콜 ID : <%= element.PRTC_ID %></p>
+                            <p class="button" onclick="submitfn('<%= element.PLSM_ID %>')">삭제</p>
                         </div>
                     </article>
                     <% } %>

@@ -39,6 +39,21 @@ router.post('/read',async function(req, res, next) {
     res.json(response);
 });
 
+router.post('/del',async function(req, res, next) {
+    const response = {
+        result: true,
+        data:   null,
+    }
+    try {
+        response.data = await plasma.del(req.body.PLSM_ID);
+        
+    } catch (error) {
+        response.result = false;
+        next(error);
+    }
+    res.json(response);
+});
+
 router.post('/modify',async function(req, res, next) {
     const response = {
         result: true,
@@ -95,8 +110,9 @@ router.post('/list',async function(req, res, next) {
         result: true,
         data:   null,
     }
-    try {
-        response.data = await plasma.list();
+    try {        
+        if(req.body.USER_EMAIL == undefined) req.body.USER_EMAIL = req.user.USER_EMAIL;
+        response.data = await plasma.list(req.body.USER_EMAIL);
     } catch (error) {
         response.result = false;
         next(error);
@@ -110,6 +126,8 @@ router.post('/regist',async function(req, res, next) {
         data:   null,
     }
     try {
+        
+        if(req.body.USER_EMAIL == undefined) req.body.USER_EMAIL = req.user.USER_EMAIL;
         if(req.body.PLSM_IP.length<7 || !isNaN(req.body.PLSM_IP)){
             response.result  = false;
             response.data    = "IP가 올바르지 않습니다."
@@ -119,6 +137,7 @@ router.post('/regist',async function(req, res, next) {
         }else{
             const data  = {
                 PLSM_ID:    req.body.PLSM_ID,
+                USER_EMAIL: req.body.USER_EMAIL,
                 PLSM_PORT:  req.body.PLSM_PORT,
                 PLSM_IP:    req.body.PLSM_IP    
             }   

@@ -11,6 +11,6 @@ exports.isNotLoggedIn = (req, res, next) => {
     next();
   } else {
     const message = encodeURIComponent('logout');
-    res.redirect('user/logout');
+    res.redirect('/');
   }
 };

@@ -38,6 +38,20 @@ router.post('/read',async function(req, res, next) {
     res.json(response);
 });
 
+router.post('/del',async function(req, res, next) {
+    const response = {
+        result: true,
+        data:   null,
+    }
+    try {
+        response.data = await sensor.del(req.body.SENSOR_ID);
+        
+    } catch (error) {
+        response.result = false;
+        next(error);
+    }
+    res.json(response);
+});
 
 router.post('/controle',async function(req, res, next) {
     const response = {
@@ -80,6 +94,7 @@ router.post('/regist',async function(req, res, next) {
             X:      null,
             Y:      null
         }
+        if(req.body.USER_EMAIL == undefined) req.body.USER_EMAIL = req.user.USER_EMAIL;
         if(req.body.SENSOR_IP.length<7 || !isNaN(req.body.SENSOR_IP)){
             response.result  = false;
             response.data    = "IP가 올바르지 않습니다."
@@ -100,6 +115,7 @@ router.post('/regist',async function(req, res, next) {
             {
                 const data  = {
                     SENSOR_ID:      req.body.SENSOR_ID,
+                    USER_EMAIL: req.body.USER_EMAIL,
                     GPS_LATITUDE:   GPS.Y,
                     GPS_LONGITUDE:  GPS.X,
                     SENSOR_PORT:    req.body.SENSOR_PORT,

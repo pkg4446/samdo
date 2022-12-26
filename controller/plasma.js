@@ -16,9 +16,10 @@ module.exports = {
   plasma_create : async function(data){
     try {
       const object = await plasma.create({
-        PLSM_ID:  data.PLSM_ID,
+        PLSM_ID:    data.PLSM_ID,
+        USER_EMAIL: data.USER_EMAIL,
         PLSM_PORT:  data.PLSM_PORT,
-        PLSM_IP:  data.PLSM_IP,
+        PLSM_IP:    data.PLSM_IP,
       });
       return object;
     } catch (error) {
@@ -60,10 +61,22 @@ module.exports = {
     }
   },
 
-  list : async function(){
+  list : async function(USER_EMAIL){
     try {
       const object = await plasma.findAll({
-        raw:  true,
+        where:  {USER_EMAIL:USER_EMAIL},
+        raw:    true,
+      });
+      return object;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  del : async function(PLSM_ID){
+    try {
+      const object = await plasma.destroy({
+        where:  {PLSM_ID:PLSM_ID}
       });
       return object;
     } catch (error) {

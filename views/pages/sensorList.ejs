@@ -1,3 +1,28 @@
+<!-- script -->
+<script type="text/javascript">   
+
+    function submitfn(SENSOR_ID){
+        $.ajax({    
+            cache : false,
+            url : "/api/sensor/del",
+            type : 'POST', 
+            data : {SENSOR_ID:SENSOR_ID}, 
+            success : function(data) {
+                if(data.result){
+                    window.location.href = "/web/sensor/list";
+                }else{
+                    alert(data.data);
+                }
+            }, // success 
+    
+            error : function(xhr, status) {
+                console.log(JSON.stringify(xhr) + " : " + status);
+            }            
+        }); // $.ajax */
+    }
+</script>
+<!-- script -->
+
 <div id="main-wrapper">
     <div class="wrapper style3">
         <div class="inner">
@@ -22,6 +47,7 @@
                             <p>메모리 주소 : <%= element.SENSOR_MEMORY %></p>
                             <p>G P S - 위도 : <%= element.GPS_LATITUDE %></p> 
                             <p>G P S - 경도 : <%= element.GPS_LONGITUDE %></p> 
+                            <p class="button" onclick="submitfn('<%= element.SENSOR_ID %>')">삭제</p>
                         </div>
                     </article>
                     <% } %>

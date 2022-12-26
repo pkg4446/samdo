@@ -18,6 +18,7 @@ module.exports = {
     try {
       const object = await sensor.create({
         SENSOR_ID:      data.SENSOR_ID,
+        USER_EMAIL:     data.USER_EMAIL,
         GPS_LATITUDE:   data.GPS_LATITUDE,
         GPS_LONGITUDE:  data.GPS_LONGITUDE,
         SENSOR_PORT:    data.SENSOR_PORT,
@@ -128,6 +129,17 @@ module.exports = {
         CH2O:       data.CH2O,
         VOCS:       data.VOCS,
         O3:         data.O3
+      });
+      return object;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  del : async function(SENSOR_ID){
+    try {
+      const object = await sensor.destroy({
+        where:  {SENSOR_ID:SENSOR_ID}
       });
       return object;
     } catch (error) {
