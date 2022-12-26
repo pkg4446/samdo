@@ -5,7 +5,7 @@ const webapi        = require('../controller/webapi');
 
 dataSave    = setInterval(async function() {
     try {
-        const senseorList = await sensor.list();
+        const senseorList = await sensor.list_All();
         for (const iterator of senseorList) {
             const sensorData = await webapi.read(iterator.SENSOR_IP,iterator.SENSOR_PORT,iterator.SENSOR_MEMORY,8);
 

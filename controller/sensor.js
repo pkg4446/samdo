@@ -93,6 +93,17 @@ module.exports = {
     }
   },
 
+  list_All : async function(USER_EMAIL){
+    try {
+      const object = await sensor.findAll({
+        raw:  true,
+      });
+      return object;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   list : async function(USER_EMAIL){
     try {
       const object = await sensor.findAll({
