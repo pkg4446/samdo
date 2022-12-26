@@ -6,6 +6,17 @@ const User = require('../../controller/user');
 
 const router = express.Router();
 
+router.post('/loginAPP', async (req, res, next) => {
+  try {
+    const response  = await User.loginAPP(req.body);
+    console.log(response);
+    return res.status(200).json(response);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 router.get('/info', isLoggedIn, async (req, res, next) => {
   try {
     // 로그인 인증이 되었다면, req.user에서 유저 정보 확인 가능

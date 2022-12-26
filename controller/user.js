@@ -40,7 +40,6 @@ module.exports = {
       });
       return true;
     } catch (error) {
-      await t.rollback();
       console.error(error);
       return false;
     }    
@@ -87,7 +86,29 @@ module.exports = {
       console.error(error);
       return false;
     }    
-  }
+  },
 
-
+  loginAPP: async function(data){    
+    try {
+      const response = {
+        result: false,
+        data: {
+          EMAIL: null,
+          NAME:  null,
+        }
+      }
+      await User.findOne({ where: { USER_EMAIL: data.USER_EMAIL },raw : true })
+      .then(async function(res){
+        response.result = await bcrypt.compare(data.USER_PASS,res.USER_PASS);
+        if(response.result){
+          response.data.EMAIL = res.USER_EMAIL;
+          response.data.NAME  = res.USER_NAME;
+        }
+      });
+      return response;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }    
+  },
 }
