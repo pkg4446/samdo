@@ -4,6 +4,7 @@ const plasma    = require("../../controller/plasma");
 
 router.get('/list', async function(req, res) {
     const response = await plasma.list();
+    console.log(req.user);
     res.render('pages/plsmList',{list:response});
     });
 
