@@ -1,0 +1,71 @@
+<!-- script -->
+
+<script type="text/javascript">      
+    function submitfn(){
+        let formData = $("#login").serialize();   
+
+        $.ajax({    
+            cache : false,
+            url : "/user/login",
+            type : 'POST', 
+            data : formData, 
+            success : function(data) {
+                console.log(data)
+                if(!data)
+                {
+                    alert("아이디가 없거나, 비밀번호가 다릅니다.");
+                }else{
+                    if(window.sessionStorage) {
+                        sessionStorage.clear();
+                    }                    
+                    
+                    sessionStorage.setItem("name", data);
+                    window.location.href = "/" ;
+                }
+            }, // success 
+    
+            error : function(xhr, status) {
+                console.log(JSON.stringify(xhr) + " : " + status);
+            }            
+        }); // $.ajax */
+    }
+</script>
+
+
+
+
+
+
+<div id="main" class="alt">
+
+    <div class="inner">
+
+        <hr class="major" />   
+        <!-- Form -->     
+        <h3>로 그 인</h3>
+
+        <form method="post" action="/auth/login" class="user" id='login'>
+            <div class="row gtr-uniform">
+                <div class="col-12">
+                    <input type="email"    name="USER_EMAIL" id="USER_EMAIL" value="" placeholder="Enter your E-mail." />
+                </div>
+                <div class="col-12">
+                    <input type="password" name="USER_PASS"  id="USER_PASS"  value="" placeholder="Enter your Password." />
+                </div>                
+                <!-- Break -->
+                <div></div>
+                <div class="col-12">
+                    <input type="button" value="LOG IN" style="width: 100%; height: 100px;" onclick="submitfn(); return false;">
+                </div>
+                <!-- Break -->                
+                <div class="col-12"></div>            
+                <div class="col-6 col-12-xsmall" >                    
+                    <a href="#" class="button primary fit">Forgot Password?</a>
+                </div>
+                <div class="col-6 col-12-xsmall" >
+                    <a href="/web/user/join" class="button fit">Create an Account!</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -4,6 +4,7 @@ const router    = express.Router();
 //const test      = require("./test");
 const api       = require("./api");
 const front     = require("./front");
+const user      = require("./user/userAuth");
 
 router.route('/')
     .get(function (req, res){
@@ -18,4 +19,5 @@ router.route('/')
     
 router.use('/api',  api);
 router.use('/web',front);
+router.use('/user',user);
 module.exports  = router;

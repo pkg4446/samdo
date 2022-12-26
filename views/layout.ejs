@@ -1,7 +1,6 @@
 <style>
     body {height: 100%;}
 </style>
-
 <!DOCTYPE html>
 
 <html lang="ko">
@@ -30,6 +29,16 @@
         <script src="/public/js/breakpoints.min.js"></script>
         <script src="/public/js/util.js"></script>
         <script src="/public/js/main.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                if(sessionStorage.name){
+                    sessionStorage.clear();
+                    document.getElementById('login').innerHTML = `<a href="/user/logout">로그아웃</a>`;
+                }else{                    
+                    document.getElementById('login').innerHTML = `<a href="/web/user/login">로그인</a>`;                    
+                }
+            });
+        </script>
     </body>      
 </html>
 
