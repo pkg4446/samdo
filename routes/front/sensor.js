@@ -12,8 +12,14 @@ router.get('/add', async function(req, res) {
     });
 
 router.get('/log', async function(req, res) {
-    const response = await sensor.log();
+    const response = await sensor.logAll();
     res.render('pages/sensorLog',{list:response});
+    });
+
+router.get('/map', async function(req, res) {
+    const response = await sensor.map();
+    console.log(response)
+    res.render('pages/sensorMap',{list:response});
     });
 
 router.get('/model/:sensor_IDX', async function(req, res) {

@@ -117,9 +117,23 @@ module.exports = {
     }
   },
 
-  log : async function(){
+  logAll : async function(){
     try {
       const object = await sensorLog.findAll({
+        limit: 100,
+        order: [["IDX","DESC"]],
+        raw:  true,
+      });
+      return object;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  log : async function(SENSOR_IDX){
+    try {
+      const object = await sensorLog.findAll({
+        where: {SENSOR_IDX: SENSOR_IDX},
         limit: 100,
         order: [["IDX","DESC"]],
         raw:  true,
@@ -172,6 +186,15 @@ module.exports = {
           });
         });  
       }
+      return object;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  map : async function(){
+    try {
+      const object = await SensorMap.findAll({raw:  true});
       return object;
     } catch (error) {
       console.error(error);

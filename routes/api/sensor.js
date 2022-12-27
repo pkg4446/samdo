@@ -5,6 +5,20 @@ const router    = express.Router();
 const webapi    = require("../../controller/webapi");
 const sensor    = require("../../controller/sensor");
 
+router.post('/map',async function(req, res, next) {
+    const response = {
+        result: true,
+        data:   null,
+    }
+    try {
+        response.data = await sensor.map();        
+    } catch (error) {
+        response.result = false;
+        next(error);
+    }
+    res.json(response);
+});
+
 router.post('/read',async function(req, res, next) {
     const response = {
         result: true,
@@ -81,6 +95,21 @@ router.post('/list',async function(req, res, next) {
     }
     res.json(response);
 });
+
+router.post('/log',async function(req, res, next) {         
+    const response = {
+        result: true,
+        data:   null,
+    }
+    try {
+        response.data = await sensor.log(req.body.SENSOR_IDX);
+    } catch (error) {
+        response.result = false;
+        next(error);
+    }
+    res.json(response);
+});
+
 
 router.post('/regist',async function(req, res, next) {
     const response = {
