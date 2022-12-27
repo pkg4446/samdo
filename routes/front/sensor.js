@@ -16,8 +16,8 @@ router.get('/log', async function(req, res) {
     res.render('pages/sensorLog',{list:response});
     });
 
-router.get('/model/:sensor_ID', async function(req, res) {
-    res.render('pages/sensorDV',{SENSOR_ID:req.params.sensor_ID});
+router.get('/model/:sensor_IDX', async function(req, res) {
+    res.render('pages/sensorDV',{SENSOR_IDX:req.params.sensor_IDX});
     });
 
 module.exports = router;

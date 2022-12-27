@@ -9,6 +9,11 @@ module.exports = class SensorLog extends Sequelize.Model{
                 autoIncrement: true
             },
 
+            SENSOR_IDX: {
+                type: Sequelize.INTEGER.UNSIGNED,
+                allowNull: false,
+            },
+
             SENSOR_ID: {
                 type: Sequelize.STRING(32),
                 allowNull: false,

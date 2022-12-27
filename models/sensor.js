@@ -3,14 +3,24 @@ const Sequelize = require('sequelize');
 module.exports = class Sensor extends Sequelize.Model{
     static init(sequelize) {
         return super.init({
+            IDX: {
+                type: Sequelize.INTEGER.UNSIGNED,
+                primaryKey: true,
+                autoIncrement: true
+            },
+
             SENSOR_ID: {
                 type: Sequelize.STRING(32),
-                primaryKey: true,
                 allowNull: false,
             },
 
             USER_EMAIL: {
                 type: Sequelize.STRING(32),
+                allowNull: false,
+            },
+
+            ADDR: {
+                type: Sequelize.STRING(48),
                 allowNull: false,
             },
 

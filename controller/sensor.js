@@ -1,13 +1,14 @@
 const sensor    = require("../models/sensor");
 const sensorLog = require("../models/sensorLog");
+const SensorMap = require("../models/sensorMap");
 
 const Sequelize   = require('./module');
 const { Op }    = require("sequelize");
 
 module.exports = {
-  sensor_read : async function(SENSOR_ID){
+  sensor_read : async function(SENSOR_IDX){
     try {
-      const object = await sensor.findByPk(SENSOR_ID,{raw: true}); 
+      const object = await sensor.findByPk(SENSOR_IDX,{raw: true}); 
       return object;
     } catch (error) {
       console.error(error);
@@ -31,9 +32,9 @@ module.exports = {
     }
   },
 
-  ctl_update : async function(SENSOR_ID,TYPE,VALUE){
+  ctl_update : async function(SENSOR_IDX,TYPE,VALUE){
     try {      
-      const object =  await sensor.findByPk(SENSOR_ID)
+      const object =  await sensor.findByPk(SENSOR_IDX)
       .then(async function(response) {
         if(TYPE == "H2S"){
           await response.update({CTL_S2H:VALUE});
@@ -47,9 +48,9 @@ module.exports = {
     }
   },
 
-  ctl_plsm : async function(SENSOR_ID,ONOFF){
+  ctl_plsm : async function(SENSOR_IDX,ONOFF){
     try {      
-      const object =  await sensor.findByPk(SENSOR_ID)
+      const object =  await sensor.findByPk(SENSOR_IDX)
       .then(async function(response) {
         await response.update({CTL_PLSM:ONOFF});
       });      
@@ -59,9 +60,9 @@ module.exports = {
     }
   },
 
-  sensor_update : async function(SENSOR_ID){
+  sensor_update : async function(SENSOR_IDX){
     try {      
-      const object =  await sensor.findByPk(SENSOR_ID)
+      const object =  await sensor.findByPk(SENSOR_IDX)
       .then(function(response) {
         let PRTC_ID = response.PRTC_ID;
 
@@ -93,7 +94,7 @@ module.exports = {
     }
   },
 
-  list_All : async function(USER_EMAIL){
+  list_All : async function(){
     try {
       const object = await sensor.findAll({
         raw:  true,
@@ -132,6 +133,7 @@ module.exports = {
   loging : async function(data){
     try {
       const object = await sensorLog.create({
+        SENSOR_IDX: data.SENSOR_IDX,
         SENSOR_ID:  data.SENSOR_ID,
         TEMP:       data.TEMP,
         HUMI:       data.HUMI,
@@ -148,10 +150,38 @@ module.exports = {
     }
   },
 
-  del : async function(SENSOR_ID){
+  mapping : async function(data){
+    try {
+      let object = await SensorMap.findByPk(data.SENSOR_IDX,{raw:  true});
+      if(!object){
+        object = await SensorMap.create({
+          SENSOR_IDX:     data.SENSOR_IDX,
+          ADDR:           data.ADDR,
+          GPS_LATITUDE:   data.GPS_LATITUDE,
+          GPS_LONGITUDE:  data.GPS_LONGITUDE,
+          ODOR:           data.ODOR
+        });
+      }else{
+        await SensorMap.findByPk(data.SENSOR_IDX)
+        .then(async function(response) {
+          await response.update({
+            ADDR:           data.ADDR,
+            GPS_LATITUDE:   data.GPS_LATITUDE,
+            GPS_LONGITUDE:  data.GPS_LONGITUDE,
+            ODOR:           data.ODOR
+          });
+        });  
+      }
+      return object;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  del : async function(SENSOR_IDX){
     try {
       const object = await sensor.destroy({
-        where:  {SENSOR_ID:SENSOR_ID}
+        where:  {IDX:SENSOR_IDX}
       });
       return object;
     } catch (error) {

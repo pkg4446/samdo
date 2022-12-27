@@ -10,13 +10,13 @@ router.post('/read',async function(req, res, next) {
         result: true,
         data:   null,
     }
+    console.log(req.body);
     try {
-        const webapidata = await sensor.sensor_read(req.body.SENSOR_ID);
+        const webapidata = await sensor.sensor_read(req.body.SENSOR_IDX);
         //webapidata = {SENSOR_ID,GPS_LATITUDE,GPS_LONGITUDE,SENSOR_PORT,SENSOR_IP}
         const res = await webapi.read(webapidata.SENSOR_IP,webapidata.SENSOR_PORT,webapidata.SENSOR_MEMORY,8);
         if(res.success){
             const buffer = res.mem[webapidata.SENSOR_MEMORY];
-            const controle = await sensor.sensor_read(req.body.SENSOR_ID);
             response.data = {
                 PM25:   buffer[0],
                 H2S:    buffer[1],
@@ -26,11 +26,10 @@ router.post('/read',async function(req, res, next) {
                 HUMI:   buffer[5]/10,
                 VOCS:   buffer[6]/10,
                 O3:     buffer[7]/1000,  
-                CTL_S2H:controle.CTL_S2H,
-                CTL_NH3:controle.CTL_NH3
+                CTL_S2H:webapidata.CTL_S2H,
+                CTL_NH3:webapidata.CTL_NH3
             }
         }
-
     } catch (error) {
         response.result = false;
         next(error);
@@ -44,7 +43,7 @@ router.post('/del',async function(req, res, next) {
         data:   null,
     }
     try {
-        response.data = await sensor.del(req.body.SENSOR_ID);
+        response.data = await sensor.del(req.body.SENSOR_IDX);
         
     } catch (error) {
         response.result = false;
@@ -59,7 +58,7 @@ router.post('/controle',async function(req, res, next) {
         data:   null,
     }
     try {
-        await sensor.ctl_update(req.body.SENSOR_ID,req.body.TYPE,req.body.DATA);
+        await sensor.ctl_update(req.body.SENSOR_IDX,req.body.TYPE,req.body.DATA);
     } catch (error) {
         response.result = false;
         next(error);
