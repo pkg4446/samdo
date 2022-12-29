@@ -53,11 +53,8 @@ router.post('/idCheck', isNotLoggedIn, async (req, res, next) => {
     return res.json(response);
   } catch (error) {
     console.error(error);
-    let idcheck = {
-      userCheck:  "fail",
-                  };
-    next(error);
-    return res.json(idcheck);
+    response.result = false;
+    return res.json(response);
   }
 });
 

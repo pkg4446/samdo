@@ -142,6 +142,7 @@ router.post('/regist',async function(req, res, next) {
                 PLSM_IP:    req.body.PLSM_IP    
             }   
             response.data = await plasma.plasma_create(data);
+            if(!response.data) response.result = false;
         }        
     } catch (error) {
         response.result = false;

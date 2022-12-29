@@ -10,6 +10,7 @@ module.exports = {
       return object;
     } catch (error) {
       console.error(error);
+      return false;
     }
   },
 
@@ -24,6 +25,7 @@ module.exports = {
       return object;
     } catch (error) {
       console.error(error);
+      return false;
     }
   },
 
@@ -58,6 +60,7 @@ module.exports = {
       return object;
     } catch (error) {
       console.error(error);
+      return false;
     }
   },
 
@@ -70,6 +73,7 @@ module.exports = {
       return object;
     } catch (error) {
       console.error(error);
+      return false;
     }
   },
 
@@ -81,6 +85,7 @@ module.exports = {
       return object;
     } catch (error) {
       console.error(error);
+      return false;
     }
   },
 }
