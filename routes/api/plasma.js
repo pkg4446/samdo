@@ -7,7 +7,7 @@ const plasma    = require("../../controller/plasma");
 router.post('/read',async function(req, res, next) {
     const response = {
         result: true,
-        data:   null,
+        data:   true,
     }
     try {
         const webapidata = await plasma.plasma_read(req.body.PLSM_ID);
@@ -42,7 +42,7 @@ router.post('/read',async function(req, res, next) {
 router.post('/del',async function(req, res, next) {
     const response = {
         result: true,
-        data:   null,
+        data:   true,
     }
     try {
         response.data = await plasma.del(req.body.PLSM_ID);
@@ -57,7 +57,7 @@ router.post('/del',async function(req, res, next) {
 router.post('/modify',async function(req, res, next) {
     const response = {
         result: true,
-        data:   null,
+        data:   true,
     }
     try {
         const webapidata = await plasma.plasma_read(req.body.PLSM_ID);
@@ -108,7 +108,7 @@ router.post('/modify',async function(req, res, next) {
 router.post('/list',async function(req, res, next) {         
     const response = {
         result: true,
-        data:   null,
+        data:   true,
     }
     try {        
         if(req.body.USER_EMAIL == undefined) req.body.USER_EMAIL = req.user.USER_EMAIL;
@@ -123,7 +123,7 @@ router.post('/list',async function(req, res, next) {
 router.post('/regist',async function(req, res, next) {
     const response = {
         result: true,
-        data:   null,
+        data:   true,
     }
     try {
         

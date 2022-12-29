@@ -8,7 +8,7 @@ const sensor    = require("../../controller/sensor");
 router.post('/map',async function(req, res, next) {
     const response = {
         result: true,
-        data:   null,
+        data:   true
     }
     try {
         response.data = await sensor.map();        
@@ -22,7 +22,7 @@ router.post('/map',async function(req, res, next) {
 router.post('/read',async function(req, res, next) {
     const response = {
         result: true,
-        data:   null,
+        data:   true
     }
     console.log(req.body);
     try {
@@ -54,7 +54,7 @@ router.post('/read',async function(req, res, next) {
 router.post('/del',async function(req, res, next) {
     const response = {
         result: true,
-        data:   null,
+        data:   true
     }
     try {
         response.data = await sensor.del(req.body.SENSOR_IDX);
@@ -69,7 +69,7 @@ router.post('/del',async function(req, res, next) {
 router.post('/controle',async function(req, res, next) {
     const response = {
         result: true,
-        data:   null,
+        data:   true
     }
     try {
         await sensor.ctl_update(req.body.SENSOR_IDX,req.body.TYPE,req.body.DATA);
@@ -83,7 +83,7 @@ router.post('/controle',async function(req, res, next) {
 router.post('/list',async function(req, res, next) {         
     const response = {
         result: true,
-        data:   null,
+        data:   true
     }
     try {
         if(req.body.USER_EMAIL == undefined) req.body.USER_EMAIL = req.user.USER_EMAIL;
@@ -99,7 +99,7 @@ router.post('/list',async function(req, res, next) {
 router.post('/log',async function(req, res, next) {         
     const response = {
         result: true,
-        data:   null,
+        data:   true
     }
     try {
         response.data = await sensor.log(req.body.SENSOR_IDX);
@@ -114,7 +114,7 @@ router.post('/log',async function(req, res, next) {
 router.post('/regist',async function(req, res, next) {
     const response = {
         result: true,
-        data:   null,
+        data:   true
     }    
     try {
         const axios = require('axios');
@@ -145,7 +145,8 @@ router.post('/regist',async function(req, res, next) {
             {
                 const data  = {
                     SENSOR_ID:      req.body.SENSOR_ID,
-                    USER_EMAIL: req.body.USER_EMAIL,
+                    USER_EMAIL:     req.body.USER_EMAIL,
+                    SENSOR_ADDR:    req.body.SENSOR_ADDR,
                     GPS_LATITUDE:   GPS.Y,
                     GPS_LONGITUDE:  GPS.X,
                     SENSOR_PORT:    req.body.SENSOR_PORT,

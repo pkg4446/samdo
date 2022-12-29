@@ -20,6 +20,7 @@ module.exports = {
       const object = await sensor.create({
         SENSOR_ID:      data.SENSOR_ID,
         USER_EMAIL:     data.USER_EMAIL,
+        ADDR:           data.SENSOR_ADDR,
         GPS_LATITUDE:   data.GPS_LATITUDE,
         GPS_LONGITUDE:  data.GPS_LONGITUDE,
         SENSOR_PORT:    data.SENSOR_PORT,
