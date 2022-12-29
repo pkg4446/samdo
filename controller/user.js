@@ -4,10 +4,10 @@ const User    = require('../models/user');
 const Sequelize   = require('./module');
 
 module.exports = {
-  info: async function(data){
+  info: async function(USER_EMAIL){
     try {
       const userInfo = await User.findOne({
-        where: { USER_EMAIL:data.USER_EMAIL },
+        where: { USER_EMAIL:USER_EMAIL },
         attributes: {
           exclude: ['USER_PASS','USER_NAME'], // exclude: 제외한 나머지 정보 가져오기
         },

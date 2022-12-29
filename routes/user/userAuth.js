@@ -39,8 +39,7 @@ router.get('/info', isLoggedIn, async (req, res, next) => {
 
 router.post('/idCheck', isNotLoggedIn, async (req, res, next) => {  
   try {
-    const { USER_EMAIL } = req.body;
-    const exUser = await User.info(USER_EMAIL);
+    const exUser = await User.info(req.body.USER_EMAIL);
     const response = {
       result: true,
       data:   null,
