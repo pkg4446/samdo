@@ -8,7 +8,10 @@ const router = express.Router();
 
 router.post('/loginAPP', async (req, res, next) => {
   try {
-    const response  = await User.loginAPP(req.body);
+    const response = {
+      result: true,
+      data:   await User.loginAPP(req.body)
+  }
     console.log(response);
     return res.status(200).json(response);
   } catch (error) {
@@ -38,13 +41,16 @@ router.post('/idCheck', isNotLoggedIn, async (req, res, next) => {
   try {
     const { USER_EMAIL } = req.body;
     const exUser = await User.info(USER_EMAIL);
-    let idcheck;
-    if (exUser) {
-      idcheck = {userCheck: true};
-    }else{
-      idcheck = {userCheck: exUser};
+    const response = {
+      result: true,
+      data:   null,
     }
-    return res.json(idcheck);
+    if (exUser) {
+      response.result = false;
+    }else{
+      response.result = true;
+    }
+    return res.json(response);
   } catch (error) {
     console.error(error);
     let idcheck = {
@@ -64,15 +70,19 @@ router.post('/join', isNotLoggedIn, async (req, res, next) => {
       return res.json(nullcheck);
     }
   }
+  const response = {
+    result: true,
+    data:   null,
+  }
   try {    
     const exUser = await User.info(req.body);
     if (exUser) {
-      const idcheck = {userCheck: true};
-      return res.json(idcheck);
+      response.result = false;
+      return res.json(response);
     }
     const passFail = await User.join(req.body);
-    const joinOk = {loginState:  passFail};
-    return res.json(joinOk);
+    response.result = true;
+    return res.json(response);
   } catch (error) {
     console.error(error);
     const joinFail = {loginState:  false};
