@@ -18,6 +18,27 @@
     });
   }
 
+  async function downloadFile() {
+    await axios({      
+      url: "/api/sensor/logAll", // 요청 주소
+      method: "post", // 요청 방식
+      data: {SENSOR_IDX:'<%= SENSOR_IDX %>'},
+    })
+    .then(function(res){
+      console.log(res.data.data);
+      const blob = new Blob([JSON.stringify(res.data.data)], {type: 'text/plain'});
+      const fileObjectUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = fileObjectUrl;
+      link.style.display = "none";
+      link.download = "센서IDX_"+'<%= SENSOR_IDX %>'+".txt";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(fileObjectUrl);
+    });   
+  }
+
   async function AutoControle(ID) {
     let value = document.getElementById(ID).value
     await axios({      
@@ -33,7 +54,7 @@
   function MONITER(contents){
     
     let WEATHER_Text = `<div class="row">`;
-    WEATHER_Text += `<div class="col-6 col-12-xsmall">${contents.WEATHER.ADDR} 기상정보</div>`;
+    WEATHER_Text += `<div class="col-4 col-12-xsmall">${contents.WEATHER.ADDR} 기상정보</div>`;
     let WEATHER_TYPE = "맑음";
     switch (contents.WEATHER.PTY) {
       case 1:
@@ -58,7 +79,8 @@
         WEATHER_TYPE = "눈날림";
         break;  
     } 
-    WEATHER_Text += `<div class="col-6 col-12-xsmall">기준 시간 : ${contents.WEATHER.TMSP}</div>`;
+    WEATHER_Text += `<div class="col-4 col-12-xsmall">기준 시간 : ${new Date(contents.WEATHER.TMSP)}</div>`;
+    WEATHER_Text += `<div class="col-4 col-12-xsmall"><span class="button icon solid fa-check-circle" onclick="downloadFile()">데이터 백업</span></div>`;
     WEATHER_Text += `<div class="col-4 col-12-xsmall">날씨 : ${WEATHER_TYPE} </div>`; 
     WEATHER_Text += `<div class="col-4 col-12-xsmall">기온 : ${contents.WEATHER.T1H} °C</div>`;
     WEATHER_Text += `<div class="col-4 col-12-xsmall">습도 : ${contents.WEATHER.REH} %</div>`;

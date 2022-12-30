@@ -27,8 +27,7 @@ router.post('/read',async function(req, res, next) {
         data:   true
     }
     try {
-        const webapidata = await sensor.sensor_read(req.body.SENSOR_IDX);
-        console.log(webapidata);        
+        const webapidata = await sensor.sensor_read(req.body.SENSOR_IDX);      
         //webapidata = {SENSOR_ID,GPS_LATITUDE,GPS_LONGITUDE,SENSOR_PORT,SENSOR_IP}
         const res = await webapi.read(webapidata.SENSOR_IP,webapidata.SENSOR_PORT,webapidata.SENSOR_MEMORY,8);
         if(res.success){
@@ -52,7 +51,6 @@ router.post('/read',async function(req, res, next) {
         response.result = false;
         next(error);
     }
-    console.log(response);
     res.json(response);
 });
 
@@ -108,6 +106,20 @@ router.post('/log',async function(req, res, next) {
     }
     try {
         response.data = await sensor.log(req.body.SENSOR_IDX);
+    } catch (error) {
+        response.result = false;
+        next(error);
+    }
+    res.json(response);
+});
+
+router.post('/logAll',async function(req, res, next) {         
+    const response = {
+        result: true,
+        data:   true
+    }
+    try {
+        response.data = await sensor.logAll_IDX(req.body.SENSOR_IDX);
     } catch (error) {
         response.result = false;
         next(error);

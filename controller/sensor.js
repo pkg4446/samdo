@@ -145,6 +145,19 @@ module.exports = {
     }
   },
 
+  logAll_IDX : async function(SENSOR_IDX){
+    try {
+      const object = await sensorLog.findAll({
+        where: {SENSOR_IDX: SENSOR_IDX},
+        order: [["IDX","DESC"]],
+        raw:  true,
+      });
+      return object;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   loging : async function(data){
     try {
       const object = await sensorLog.create({
