@@ -25,7 +25,6 @@
       data: {SENSOR_IDX:'<%= SENSOR_IDX %>'},
     })
     .then(function(res){
-      console.log(res.data.data);
       const blob = new Blob([JSON.stringify(res.data.data)], {type: 'text/plain'});
       const fileObjectUrl = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
