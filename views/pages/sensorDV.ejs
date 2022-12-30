@@ -31,8 +31,45 @@
   }
 
   function MONITER(contents){
-    let HTML_Text = `<div class="row">`;
+    
+    let WEATHER_Text = `<div class="row">`;
+    WEATHER_Text += `<div class="col-6 col-12-xsmall">${contents.WEATHER.ADDR} 기상정보</div>`;
+    let WEATHER_TYPE = "맑음";
+    switch (contents.WEATHER.PTY) {
+      case 1:
+        WEATHER_TYPE = "비";
+        break;
+      case 2:
+        WEATHER_TYPE = "비/눈";  
+        break;
+      case 3:
+        WEATHER_TYPE = "눈";
+        break;
+      case 4:
+        WEATHER_TYPE = "흐림";
+        break;
+      case 5:
+        WEATHER_TYPE = "빗방울";
+        break;
+      case 6:
+        WEATHER_TYPE = "빗방울눈날림";
+        break;
+      case 7:
+        WEATHER_TYPE = "눈날림";
+        break;  
+    } 
+    WEATHER_Text += `<div class="col-6 col-12-xsmall">기준 시간 : ${contents.WEATHER.TMSP}</div>`;
+    WEATHER_Text += `<div class="col-4 col-12-xsmall">날씨 : ${WEATHER_TYPE} </div>`; 
+    WEATHER_Text += `<div class="col-4 col-12-xsmall">기온 : ${contents.WEATHER.T1H} °C</div>`;
+    WEATHER_Text += `<div class="col-4 col-12-xsmall">습도 : ${contents.WEATHER.REH} %</div>`;
+    WEATHER_Text += `<div class="col-4 col-12-xsmall">강수량 : ${contents.WEATHER.RN1} mm/h</div>`;
+    WEATHER_Text += `<div class="col-4 col-12-xsmall">풍향 : ${contents.WEATHER.VEC} °</div>`;
+    WEATHER_Text += `<div class="col-4 col-12-xsmall">풍속 : ${contents.WEATHER.WSD} m/s</div>`;
+    WEATHER_Text += `<div class="col-12 col-12-xsmall"><hr><br></div>`;
+    WEATHER_Text += "</div>";
 
+
+    let HTML_Text = `<div class="row">`;
     HTML_Text += `<div class="col-3 col-12-xsmall">PM2.5:</div>`;
     HTML_Text += `<div class="col-3 col-12-xsmall">${contents.PM25} </div>`;
     HTML_Text += `<div class="col-3 col-12-xsmall">H2S:</div>`;
@@ -59,6 +96,7 @@
     HTML_Text += `<div class="col-3 col-12-xsmall"><span class="button icon solid fa-check-circle" onclick="AutoControle('NH3')">암모니아 설정 변경</span></div>`
 
     HTML_Text += "</div>";
+    document.getElementById("weather").innerHTML = WEATHER_Text;
     document.getElementById("moniter").innerHTML = HTML_Text;
   }
 
@@ -66,5 +104,6 @@
 
 <div class="wrapper style1">
   <h2> [ <%= SENSOR_IDX %> ]</h2>
+  <div id="weather"></div>
   <div id="moniter"></div>
 </div>

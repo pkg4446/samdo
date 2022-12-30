@@ -25,7 +25,7 @@ module.exports = class Weather extends Sequelize.Model{
             },
 
             PTY: {
-                type: Sequelize.FLOAT,
+                type: Sequelize.TINYINT.UNSIGNED,
                 allowNull: false,
             },
 
