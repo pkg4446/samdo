@@ -5,6 +5,7 @@ const db        = {};
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 const user      = require('./user');
+const weather   = require('./weather');
 const plasma    = require('./plasma');
 const sensor    = require('./sensor');
 const sensorLog = require('./sensorLog');
@@ -14,6 +15,10 @@ db.sequelize    = sequelize;
 db.user         = user;
 user.init(sequelize);
 user.associate(db);
+
+db.weather         = weather;
+weather.init(sequelize);
+weather.associate(db);
 
 db.plasma       = plasma;
 plasma.init(sequelize);
