@@ -45,8 +45,8 @@ function map_conv(lon, lat, map ) {
     lat1 = lat;
     const res = lamcproj(lon1, lat1, map);
     const response = {
-        x: res.x + 1.5,
-        y: res.y + 1.5,
+        x: Math.floor(res.x + 1.5),
+        y: Math.floor(res.y + 1.5),
     }   
     console.log("map_conv",response);	
 	return response;
