@@ -8,7 +8,7 @@ const { Op }    = require("sequelize");
 module.exports = {
   sensor_read : async function(SENSOR_IDX){
     try {
-      const object = await sensor.findByPk(SENSOR_IDX,{raw: true}); 
+      const object = await sensor.findByPk(SENSOR_IDX,{raw: true});
       return object;
     } catch (error) {
       console.error(error);

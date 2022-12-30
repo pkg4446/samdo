@@ -1,6 +1,8 @@
-console.log("funtion test: ", L2XY(126.971634,36.046876));
-
-
+module.exports = {
+	convert : function(lon ,lat){
+		return	L2XY(lon ,lat);
+  }
+}
 
 //기상청 API 위경도 -> XY좌표 변환 함수
 function L2XY(lon ,lat) {
@@ -32,8 +34,6 @@ function L2XY(lon ,lat) {
 
 	// 단기예보 
     const response = map_conv(lon, lat, lamc_parameter);
-    console.log(response);
-
 	return response;
 }
 
@@ -48,7 +48,6 @@ function map_conv(lon, lat, map ) {
         x: Math.floor(res.x + 1.5),
         y: Math.floor(res.y + 1.5),
     }   
-    console.log("map_conv",response);	
 	return response;
 }
 
@@ -89,7 +88,5 @@ function lamcproj(lon, lat, map)
         x: (ra*Math.sin(theta)) + map.xo,
         y: (ro - ra*Math.cos(theta)) + map.yo
     }
-
-    console.log("lamcproj",response);	
 	return response;
 }

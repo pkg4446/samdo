@@ -4,6 +4,8 @@ const router    = express.Router();
 
 const webapi    = require("../../controller/webapi");
 const sensor    = require("../../controller/sensor");
+const weather   = require("../../controller/weather");
+const L2XY      = require("../../predict/l2xy");
 
 router.post('/map',async function(req, res, next) {
     const response = {
@@ -24,13 +26,14 @@ router.post('/read',async function(req, res, next) {
         result: true,
         data:   true
     }
-    console.log(req.body);
     try {
         const webapidata = await sensor.sensor_read(req.body.SENSOR_IDX);
+        console.log(webapidata);        
         //webapidata = {SENSOR_ID,GPS_LATITUDE,GPS_LONGITUDE,SENSOR_PORT,SENSOR_IP}
         const res = await webapi.read(webapidata.SENSOR_IP,webapidata.SENSOR_PORT,webapidata.SENSOR_MEMORY,8);
         if(res.success){
             const buffer = res.mem[webapidata.SENSOR_MEMORY];
+            const XY = L2XY.convert(webapidata.GPS_LONGITUDE,webapidata.GPS_LATITUDE);
             response.data = {
                 PM25:   buffer[0],
                 H2S:    buffer[1],
@@ -41,13 +44,15 @@ router.post('/read',async function(req, res, next) {
                 VOCS:   buffer[6]/10,
                 O3:     buffer[7]/1000,  
                 CTL_S2H:webapidata.CTL_S2H,
-                CTL_NH3:webapidata.CTL_NH3
-            }
+                CTL_NH3:webapidata.CTL_NH3,
+                WEATHER:await weather.read(XY)
+            }            
         }
     } catch (error) {
         response.result = false;
         next(error);
     }
+    console.log(response);
     res.json(response);
 });
 
