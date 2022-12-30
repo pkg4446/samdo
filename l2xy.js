@@ -1,23 +1,24 @@
-const { response } = require("express");
+console.log("funtion test: ", L2XY(126.971634,36.046876));
 
-const NX = 149; /* X축 격자점 수 */
-const NY = 253; /* Y축 격자점 수 */
 
-const lamc_parameter = {
-    Re: null,
-    grid: null,
-    slat1: null,
-    slat2: null,
-    olon: null,
-    olat: null,
-    xo: null,
-    yo: null,
-    first: null
-}
 
+//기상청 API 위경도 -> XY좌표 변환 함수
 function L2XY(lon ,lat) {
+	// 경도(degree) = lon,  위도(degree) = lat
 	// 단기예보 지도 정보
     const grid              = 5.0; // 격자간격 (km)
+
+	const lamc_parameter = {
+		Re: null,
+		grid: null,
+		slat1: null,
+		slat2: null,
+		olon: null,
+		olat: null,
+		xo: null,
+		yo: null,
+		first: null
+	}
 
 	lamc_parameter.Re       = 6371.00877; // 지도반경
 	lamc_parameter.grid     = grid;
@@ -29,8 +30,8 @@ function L2XY(lon ,lat) {
 	lamc_parameter.yo       = 675/grid; // 기준점 Y좌표
 	lamc_parameter.first    = 0;
 
-	// 단기예보 // 경도(degree) = lon,  위도(degree) = lat
-    const response = map_conv(lon, lat, map);
+	// 단기예보 
+    const response = map_conv(lon, lat, lamc_parameter);
     console.log(response);
 
 	return response;
@@ -58,7 +59,7 @@ function lamcproj(lon, lat, map)
 	let slat1, slat2, ra, theta;
 
 	if (map.first == 0) {
-		PI = asin(1.0)*2.0;
+		PI = Math.asin(1.0)*2.0;
 		DEGRAD = PI/180.0;
 		RADDEG = 180.0/PI;
 
@@ -68,25 +69,25 @@ function lamcproj(lon, lat, map)
 		olon = map.olon * DEGRAD;
 		olat = map.olat * DEGRAD;
 
-		sn = tan(PI*0.25 + slat2*0.5)/tan(PI*0.25 + slat1*0.5);
-		sn = log(cos(slat1)/cos(slat2))/log(sn);
-		sf = tan(PI*0.25 + slat1*0.5);
-		sf = pow(sf,sn)*cos(slat1)/sn;
-		ro = tan(PI*0.25 + olat*0.5);
-		ro = re*sf/pow(ro,sn);
+		sn = Math.tan(PI*0.25 + slat2*0.5)/Math.tan(PI*0.25 + slat1*0.5);
+		sn = Math.log(Math.cos(slat1)/Math.cos(slat2))/Math.log(sn);
+		sf = Math.tan(PI*0.25 + slat1*0.5);
+		sf = Math.pow(sf,sn)*Math.cos(slat1)/sn;
+		ro = Math.tan(PI*0.25 + olat*0.5);
+		ro = re*sf/Math.pow(ro,sn);
 		map.first = 1;
 	}
 
-    ra = tan(PI*0.25+lat*DEGRAD*0.5);
-    ra = re*sf/pow(ra,sn);
+    ra = Math.tan(PI*0.25+lat*DEGRAD*0.5);
+    ra = re*sf/Math.pow(ra,sn);
     theta = lon*DEGRAD - olon;
     if (theta > PI) theta -= 2.0*PI;
     if (theta < -PI) theta += 2.0*PI;
     theta *= sn;
 
     const response = {
-        x: (ra*sin(theta)) + map.xo,
-        y: (ro - ra*cos(theta)) + map.yo
+        x: (ra*Math.sin(theta)) + map.xo,
+        y: (ro - ra*Math.cos(theta)) + map.yo
     }
 
     console.log("lamcproj",response);	
