@@ -1,6 +1,6 @@
-const plasma      = require("../models/plasma");
+const plasma    = require("../models/plasma");
 
-const Sequelize   = require('./module');
+const Sequelize = require('./module');
 const { Op }    = require("sequelize");
 
 module.exports = {

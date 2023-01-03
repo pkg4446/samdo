@@ -1,0 +1,56 @@
+<!-- script -->
+<script type="text/javascript">   
+
+    function submitfn(REDUC_ID){
+        $.ajax({    
+            cache : false,
+            url : "/api/reducer/del",
+            type : 'POST', 
+            data : {REDUC_ID:REDUC_ID}, 
+            success : function(data) {
+                if(data.result){
+                    window.location.href = "/web/reducer/list";
+                }else{
+                    alert(data.data);
+                }
+            }, // success 
+    
+            error : function(xhr, status) {
+                console.log(JSON.stringify(xhr) + " : " + status);
+            }            
+        }); // $.ajax */
+    }
+</script>
+<!-- script -->
+
+<div id="main-wrapper">
+    <div class="wrapper style3">
+        <div class="inner">
+            <div class="container">
+
+            <!-- Article list -->
+                <section class="box article-list">
+                    <h2 class="icon fa-file-alt">악취저감 장비 목록</h2>
+                    <% 
+                    for(let element of list){ 
+                        const rendomInt = Math.floor(Math.random()*3) + 4;
+                    %>                        
+                    <!-- Excerpt -->
+                    <article class="box excerpt">
+                        <a href="/web/reducer/model/<%= element.REDUC_ID %>" class="image left"><img src="/public/images/pic0<%=rendomInt%>.jpg" alt="" /></a>
+                        <div>
+                            <header>
+                                <h3>장비명 : <%= element.REDUC_ID %></h3>
+                            </header>
+                            <p>포 &emsp;&emsp;&emsp;트 : <%= element.REDUC_PORT %></p>                                
+                            <p>프로토콜 ID : <%= element.PRTC_ID %></p>
+                            <p class="button" onclick="submitfn('<%= element.REDUC_ID %>')">삭제</p>
+                        </div>
+                    </article>
+                    <% } %>
+                </section>
+                   
+            </div>
+        </div>
+    </div>
+</div>
