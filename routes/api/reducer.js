@@ -12,7 +12,6 @@ router.post('/read',async function(req, res, next) {
     try {
         const webapidata = await reducer.reducer_read(req.body.REDUC_ID);
         const res = await webapi.read(webapidata.REDUC_IP,webapidata.REDUC_PORT,0,40);
-        console.log(res);
         if(res.success){
             const buffer = res.mem["0"];
             console.log(buffer);
@@ -38,7 +37,6 @@ router.post('/read',async function(req, res, next) {
         response.result = false;
         next(error);
     }
-    console.log(response);
     res.json(response);
 });
 
