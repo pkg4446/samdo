@@ -22,7 +22,7 @@
     await axios({      
       url: "/api/reducer/read", // 요청 주소
       method: "post", // 요청 방식
-      data: {PLSM_ID:'<%= PLSM_ID %>'},
+      data: {REDUC_ID:'<%= REDUC_ID %>'},
     })
     .then(function(res){
       if(res.data.result){
@@ -35,7 +35,7 @@
     await axios({      
       url: "/api/reducer/modify", // 요청 주소
       method: "post", // 요청 방식
-      data: {PLSM_ID:'<%= PLSM_ID %>',ADDR:address,DATA:data},
+      data: {REDUC_ID:'<%= REDUC_ID %>',ADDR:address,DATA:data},
     })
     .then(function(res){
       if(res.data.data.success) counter = 0;
@@ -51,58 +51,64 @@
     else if(id=="timeO"){addr="109"; }
     else if(id=="timeF"){addr="110"; }
     else if(id=="timeP"){addr="111"; }
-    send(addr,data);
+    //send(addr,data);
   }
 
   function MONITER(contents){
     let HTML_Text = `<div class="row">`;
-
-    HTML_Text += `<div class="col-12 col-12-xsmall">에러정보: ${contents.error}</div>`;
-
     let actMode = ["button alt","button alt","button alt"];
-    if(contents.actMode == 2){actMode[0]="button icon solid fa-check-circle";}
-    else if(contents.actMode == 3){actMode[1]="button icon solid fa-check-circle";}
-    else if(contents.actMode == 4){actMode[2]="button icon solid fa-check-circle";}
+    if(contents.actMode == 1){actMode[0]="button icon solid fa-check-circle";}
+    else if(contents.actMode == 2){actMode[1]="button icon solid fa-check-circle";}
+    else if(contents.actMode == 3){actMode[2]="button icon solid fa-check-circle";}
 
-    HTML_Text += `<div class="col-3 col-12-xsmall">동작 모드</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actMode[0]}" onclick="send('101','Auto')"> 자 동 </span></div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actMode[1]}" onclick="send('101','Timer')">스 케 쥴</span></div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actMode[2]}" onclick="send('101','Manual')"> 수 동 </span></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall">동작 모드</div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actMode[0]}" onclick="send('101','Stop')"> 정 지 </span></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actMode[1]}" onclick="send('101','Manual')"> 수 동</span></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actMode[2]}" onclick="send('101','Auto')"> 자 동 </span></div>`;
 
     let actStat = ["button alt","button alt","button alt"];
     if(contents.actStat == 1){actStat[0]="button icon solid fa-arrow-circle";}
     else if(contents.actStat == 2){actStat[1]="button icon solid fa-arrow-circle";}
     else if(contents.actMode == 3){actStat[0]="button icon solid fa-check-circle";actStat[1]="button icon solid fa-check-circle";}
     else if(contents.actStat == 4){actStat[2]="button icon solid fa-arrow-circle";}
-    HTML_Text += `<div class="col-3 col-12-xsmall">동작 상태</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actStat[0]}">플라즈마</span></div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actStat[1]}">급 기 팬</span></div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><span class="${actStat[2]}">물 펌 프</span></div>`
-      
-    HTML_Text += `<div class="col-3 col-12-xsmall">장비시계:</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="calendar"><span onclick="MONITER_Modify('calendar')">${contents.day[0]}년 ${contents.day[1]}월 ${contents.day[2]}일</span></h1></div>`
-    HTML_Text += `<div class="col-6 col-12-xsmall"><h1 id="clock"><span onclick="MONITER_Modify('clock')">${contents.time[0]}시 ${contents.time[1]}분 ${contents.time[2]}초</span></h1></div>`
 
-    HTML_Text += `<div class="col-3 col-12-xsmall">시작시간:</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeS"><span onclick="MONITER_Modify('timeS')">${contents.tmOn[0]}시 ${contents.tmOn[1]}분 ${contents.tmOn[2]}초</span></h1></div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall">종료시간:</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeE"><span onclick="MONITER_Modify('timeE')">${contents.tmOff[0]}시 ${contents.tmOff[1]}분 ${contents.tmOff[2]}초</span></h1></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall">생성부 반복시간(켜짐):</div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeO_G"><span onclick="MONITER_Modify('timeO')">${contents.G_rpOn} 초</span></h1></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall">생성부 반복시간(꺼짐):</div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeF_G"><span onclick="MONITER_Modify('timeF')">${contents.G_rpOff} 초</span></h1></div>`;
 
-    HTML_Text += `<div class="col-3 col-12-xsmall">반복시간(켜짐):</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeO"><span onclick="MONITER_Modify('timeO')">${contents.rpOn} 분</span></h1></div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall">반복시간(꺼짐):</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeF"><span onclick="MONITER_Modify('timeF')">${contents.rpOff} 분</span></h1></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall">필터부 반복시간(켜짐):</div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeO_F"><span onclick="MONITER_Modify('timeO')">${contents.F_rpOn} 초</span></h1></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall">필터부 반복시간(꺼짐):</div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeF_F"><span onclick="MONITER_Modify('timeF')">${contents.F_rpOff} 초</span></h1></div>`;
 
-    HTML_Text += `<div class="col-3 col-12-xsmall">펌프시간:</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.pump} 초</span></h1></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall">생성부 펌프시간:</div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP_G"><span onclick="MONITER_Modify('timeP')">${contents.G_pump} 초</span></h1></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall">필터부 펌프시간:</div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP_F"><span onclick="MONITER_Modify('timeP')">${contents.F_pump} 초</span></h1></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall">교반 펌프시간:</div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP_M"><span onclick="MONITER_Modify('timeP')">${contents.M_pump} 초</span></h1></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall">분사 펌프시간:</div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP_S"><span onclick="MONITER_Modify('timeP')">${contents.S_pump} 초</span></h1></div>`;
     
-    let fan = ["button alt","button alt"];
-    if(contents.fan==0){ fan[1] = "button icon solid fa-check-circle"; }
-    else{ fan[0] = "button icon solid fa-check-circle"; }
-    HTML_Text += `<div class="col-3 col-12-xsmall">팬 설정:</div>`    
-    HTML_Text += `<div class="col-3 col-12-xsmall">
-                  <div class="${fan[0]}" onclick="send('112','Auto')">자동</div>
-                  <div class="${fan[1]}" onclick="send('112','On')">켜짐</div></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall">흡기팬 속도(평상시)</div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.i_fan}</span></h1></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall">흡기팬 속도(회수시)</div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.I_fan}</span></h1></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall">회수팬 속도(회수시)</div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.O_fan}</span></h1></div>`;
+    
+    HTML_Text += `<div class="col-3 col-12-xsmall">팬 가동:</div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall">`;
+    if(contents.fanStat==1){HTML_Text += `<div class="button icon solid fa-check-circle" onclick="send('112','test')">흡기팬 가동</div>`;}
+    else{HTML_Text += `<div class="button icon solid fa-check-circle" onclick="send('112','test')">회수팬 가동</div>`;}
+    HTML_Text +=`</div>`;
+
+    HTML_Text += `<div class="col-3 col-12-xsmall">현재 흡기팬 속도</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.i_fan_v}</span></h1></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall">현재 회수팬 속도</div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.I_fan_v}</span></h1></div>`
+    
 
     HTML_Text += "</div>";
     document.getElementById("moniter").innerHTML = HTML_Text;
@@ -122,6 +128,6 @@
 </script>
 
 <div class="wrapper style1">
-  <h2> [ <%= PLSM_ID %> ]</h2>
+  <h2> [ <%= REDUC_ID %> ]</h2>
   <div id="moniter"></div>
 </div>

@@ -12,30 +12,33 @@ router.post('/read',async function(req, res, next) {
     try {
         const webapidata = await reducer.reducer_read(req.body.REDUC_ID);
         const res = await webapi.read(webapidata.REDUC_IP,webapidata.REDUC_PORT,0,40);
+        console.log(res);
         if(res.success){
-            const buffer = res.mem[1];
-            const time  = BinaryZero(buffer[4]);
-            const day   = BinaryZero(buffer[5]);
-            const tmOn  = BinaryZero(buffer[6]);
-            const tmOff = BinaryZero(buffer[7]);
+            const buffer = res.mem["0"];
+            console.log(buffer);
             response.data = {
-                actMode:  buffer[0],
-                actStat:  buffer[1],  
-                error:    buffer[3],
-                time:     BinaryParse(time,5),
-                day:      BinaryParse(day,7),
-                tmOn:     BinaryParse(tmOn,5),
-                tmOff:    BinaryParse(tmOff,5),
-                rpOn:     buffer[8],
-                rpOff:    buffer[9],
-                pump:     buffer[10],
-                fan:      buffer[11]
+                actMode:    buffer[0],
+                G_rpOn:     buffer[4],
+                G_rpOff:    buffer[5],
+                F_rpOn:     buffer[6],
+                F_rpOff:    buffer[7],
+                G_pump:     buffer[8],
+                F_pump:     buffer[9],
+                M_pump:     buffer[10],
+                S_pump:     buffer[11],
+                i_fan:      buffer[12],
+                I_fan:      buffer[13],
+                O_fan:      buffer[14],
+                fanStat:    buffer[15],
+                i_fan_v:    buffer[22],
+                I_fan_v:    buffer[23]
             }
         }
     } catch (error) {
         response.result = false;
         next(error);
     }
+    console.log(response);
     res.json(response);
 });
 
@@ -45,7 +48,7 @@ router.post('/del',async function(req, res, next) {
         data:   true,
     }
     try {
-        response.data = await plasma.del(req.body.REDUC_ID);
+        response.data = await reducer.del(req.body.REDUC_ID);
         
     } catch (error) {
         response.result = false;
@@ -60,7 +63,7 @@ router.post('/modify',async function(req, res, next) {
         data:   true,
     }
     try {
-        const webapidata = await plasma.plasma_read(req.body.REDUC_ID);
+        const webapidata = await reducer.reducer_read(req.body.REDUC_ID);
         const commend = req.body.ADDR.toString();
         const request = req.body.DATA;
         let   hexData = "";
@@ -112,7 +115,7 @@ router.post('/list',async function(req, res, next) {
     }
     try {        
         if(req.body.USER_EMAIL == undefined) req.body.USER_EMAIL = req.user.USER_EMAIL;
-        response.data = await plasma.list(req.body.USER_EMAIL);
+        response.data = await reducer.list(req.body.USER_EMAIL);
     } catch (error) {
         response.result = false;
         next(error);
@@ -141,7 +144,7 @@ router.post('/regist',async function(req, res, next) {
                 REDUC_PORT: req.body.REDUC_PORT,
                 REDUC_IP:   req.body.REDUC_IP    
             }   
-            response.data = await plasma.plasma_create(data);
+            response.data = await reducer.reducer_create(data);
             if(!response.data) response.result = false;
         }        
     } catch (error) {
@@ -153,54 +156,3 @@ router.post('/regist',async function(req, res, next) {
 });
 
 module.exports = router;
-
-function HexZero(data){
-    let HexData = "";
-    if(data.length<4){
-      for (let index = 4; index > data.length; index--) {
-        HexData += '0';              
-      }
-    }
-    HexData += data;
-    return HexData;
-  }
-
-function TimeData(DATA,firstN){
-    const arry = DATA.split(":");
-    let binaryData = 0;
-    binaryData += arry[0]<<firstN;  
-    binaryData += arry[1]<<5;
-
-    if(firstN == 11) {binaryData += arry[2]>>1;}
-    else {binaryData += arry[2]*1;}
-    
-    return binaryData;
-  }
-
-  function BinaryZero(data){
-    const HEX = data.toString(16);
-    const buffer1 = parseInt(HEX.slice(0,2),16).toString(2);
-    const buffer2 = parseInt(HEX.slice(2),16).toString(2);
-
-    let BinaryData = "";
-    if(buffer1.length<8){
-      for (let index = 8; index > buffer1.length; index--) {
-        BinaryData += '0';              
-      }
-    }
-    BinaryData += buffer1;
-
-    if(buffer2.length<8){
-        for (let index = 8; index > buffer2.length; index--) {
-          BinaryData += '0';              
-        }
-      }
-      BinaryData += buffer2;
-
-    return BinaryData;
-  }
-
-  function BinaryParse(data,slice){
-    const response = (`${parseInt(data.substring(0, slice), 2)},${parseInt(data.substring(slice, 11), 2)},${parseInt(data.substring(11, 16), 2)}`).split(",");
-    return response;
-  }
