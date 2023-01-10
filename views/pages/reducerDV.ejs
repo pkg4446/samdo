@@ -73,14 +73,14 @@
     else if(contents.actStat == 4){actStat[2]="button icon solid fa-arrow-circle";}
 
     HTML_Text += `<div class="col-3 col-12-xsmall">생성부 반복시간(켜짐):</div>`;
-    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeO_G"><span onclick="MONITER_Modify('timeO')">${contents.G_rpOn} 초</span></h1></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeO_G"><span onclick="MONITER_Modify('timeO')">${contents.G_rpOn} 분</span></h1></div>`;
     HTML_Text += `<div class="col-3 col-12-xsmall">생성부 반복시간(꺼짐):</div>`;
-    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeF_G"><span onclick="MONITER_Modify('timeF')">${contents.G_rpOff} 초</span></h1></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeF_G"><span onclick="MONITER_Modify('timeF')">${contents.G_rpOff} 분</span></h1></div>`;
 
     HTML_Text += `<div class="col-3 col-12-xsmall">필터부 반복시간(켜짐):</div>`;
-    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeO_F"><span onclick="MONITER_Modify('timeO')">${contents.F_rpOn} 초</span></h1></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeO_F"><span onclick="MONITER_Modify('timeO')">${contents.F_rpOn} 분</span></h1></div>`;
     HTML_Text += `<div class="col-3 col-12-xsmall">필터부 반복시간(꺼짐):</div>`;
-    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeF_F"><span onclick="MONITER_Modify('timeF')">${contents.F_rpOff} 초</span></h1></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeF_F"><span onclick="MONITER_Modify('timeF')">${contents.F_rpOff} 분</span></h1></div>`;
 
     HTML_Text += `<div class="col-3 col-12-xsmall">생성부 펌프시간:</div>`;
     HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP_G"><span onclick="MONITER_Modify('timeP')">${contents.G_pump} 초</span></h1></div>`;
@@ -92,11 +92,11 @@
     HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP_S"><span onclick="MONITER_Modify('timeP')">${contents.S_pump} 초</span></h1></div>`;
     
     HTML_Text += `<div class="col-3 col-12-xsmall">흡기팬 속도(평상시)</div>`;
-    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.i_fan}</span></h1></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.i_fan/100}%</span></h1></div>`;
     HTML_Text += `<div class="col-3 col-12-xsmall">흡기팬 속도(회수시)</div>`;
-    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.I_fan}</span></h1></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.I_fan/100}%</span></h1></div>`;
     HTML_Text += `<div class="col-3 col-12-xsmall">회수팬 속도(회수시)</div>`;
-    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.O_fan}</span></h1></div>`;
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.O_fan/100}%</span></h1></div>`;
     
     HTML_Text += `<div class="col-3 col-12-xsmall">팬 가동:</div>`;
     HTML_Text += `<div class="col-3 col-12-xsmall">`;
@@ -105,9 +105,9 @@
     HTML_Text +=`</div>`;
 
     HTML_Text += `<div class="col-3 col-12-xsmall">현재 흡기팬 속도</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.i_fan_v}</span></h1></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.i_fan_v/100}%</span></h1></div>`
     HTML_Text += `<div class="col-3 col-12-xsmall">현재 회수팬 속도</div>`
-    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.I_fan_v}</span></h1></div>`
+    HTML_Text += `<div class="col-3 col-12-xsmall"><h1 id="timeP"><span onclick="MONITER_Modify('timeP')">${contents.I_fan_v/100}%</span></h1></div>`
     
 
     HTML_Text += "</div>";
