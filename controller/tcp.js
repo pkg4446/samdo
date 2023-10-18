@@ -9,11 +9,11 @@ module.exports = {
 		});
 		// setting encoding
 		socket.setEncoding('utf8');
-		const rawHex = Buffer.from(hexString, 'hex');		
+		const rawHex = Buffer.from(hexString, 'hex');
 		console.log("보낸 데이터 : ",rawHex);
 
 		socket.on('connect', function () {
-			console.log('on connect');					
+			console.log('on connect');
 			socket.write(rawHex);	
 		});
 

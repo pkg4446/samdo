@@ -2,7 +2,7 @@ const sensor    = require("../models/sensor");
 const sensorLog = require("../models/sensorLog");
 const SensorMap = require("../models/sensorMap");
 
-const Sequelize   = require('./module');
+const Sequelize = require('./module');
 const { Op }    = require("sequelize");
 
 module.exports = {
